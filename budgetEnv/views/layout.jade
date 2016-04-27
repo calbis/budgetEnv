@@ -1,7 +1,16 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(type='text/javascript', src='/javascripts/jquery-2.2.3.min.js')
+        script(type='text/javascript', src='/javascripts/knockout-3.4.0.js')
+        script(type='text/javascript', src='/javascripts/sammy.min.js')
+        script(type='text/javascript', src='/javascripts/main.js')
+    body
+            div.clearfix
+                div(style='width: 100px; float: left;')
+                    a(href='#') Home
+                div(style='text-align: right; width: 100px; float: right;').
+                    hello, Calvin.
+            block content

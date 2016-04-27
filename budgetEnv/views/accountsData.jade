@@ -1,0 +1,20 @@
+div
+    table(data-bind='with: accountsData')
+        thead
+            tr
+                th Account
+                th Amount
+                th Pending
+        tbody(data-bind='foreach: data')
+            tr
+            td(data-bind='text: name')
+            td(data-bind='text: formatCurrency(amount)')
+            td(data-bind='text: formatCurrency(pending)')
+        tfoot
+            tr
+                th Total
+                th 111.11
+                th 222.222
+            tr
+                th Grand Total
+                th(colspan='2') 333.33

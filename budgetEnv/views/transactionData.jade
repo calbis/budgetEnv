@@ -1,0 +1,16 @@
+div
+    table(data-bind='with: transactionData')
+        thead
+            tr
+                th Date
+                th Name
+                th Amount
+                th Pending
+                th &nbsp;
+        tbody(data-bind='foreach: data')
+            tr
+                td(data-bind='text: postedDate')
+                td(data-bind='text: name')
+                td(data-bind='text: formatCurrency(amount)')
+                td(data-bind='text: formatCurrency(pending)')
+                td Actions

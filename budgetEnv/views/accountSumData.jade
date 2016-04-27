@@ -1,0 +1,27 @@
+div
+    div(data-bind='with: accountSumData')
+        div.clearfix
+            label.accountSumLeftCol
+                span(data-bind='text: accountName')
+                |  Balance
+            div.accountSumRightCol(data-bind='text: formatCurrency(totalAmount)')
+        div.clearfix
+            label.accountSumLeftCol
+                span(data-bind='text: accountName')
+                |  Pending
+            div.accountSumRightCol(data-bind='text: formatCurrency(totalPending)')
+        div.clearfix
+            label.accountSumLeftCol
+                span(data-bind='text: accountName')
+                |  Grand Total
+            div.accountSumRightCol(data-bind='text: formatCurrency(totalGrand)')
+        div.clearfix
+            label.accountSumLeftCol(for='txtAccountWebsite')
+                span(data-bind='text: accountName')
+                |  From Website
+            input#txtAccountWebsite.accountSumRightCol(data-bind='value: formatCurrency(fromWebsite)')
+        div.clearfix
+            label.accountSumLeftCol
+                span(data-bind='text: accountName')
+                |  Difference
+            div.accountSumRightCol(data-bind='text: formatCurrency(difference)')
