@@ -19,7 +19,7 @@
             label.accountSumLeftCol(for='txtAccountWebsite')
                 span(data-bind='text: accountName')
                 |  From Website
-            input#txtAccountWebsite.accountSumRightCol(data-bind='value: formatCurrency(fromWebsite)')
+            input#txtAccountWebsite.accountSumRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)')
         div.clearfix
             label.accountSumLeftCol
                 span(data-bind='text: accountName')
