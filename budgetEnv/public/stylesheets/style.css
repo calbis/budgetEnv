@@ -1,70 +1,78 @@
 .accountTabs {
-  background-color: #bbb;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  border-radius: 7px;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #d6d6d6), color-stop(0.4, #c0c0c0), color-stop(1, #a4a4a4));
-  margin: 10px 0 16px 0;
-  font-size: 0px;
+    background-color: #bbb;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 7px;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #d6d6d6), color-stop(0.4, #c0c0c0), color-stop(1, #a4a4a4));
+    margin: 10px 0 16px 0;
+    font-size: 0px;
 }
 
 .accountTabs li:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 .accountTabs li:first-child {
-  border-left: none;
-  border-radius: 7px 0 0 7px;
+    border-left: none;
+    border-radius: 7px 0 0 7px;
 }
 
 .accountTabs li {
-  font-size: 16px;
-  font-weight: bold;
-  display: inline-block;
-  padding: 0.5em 1.5em;
-  cursor: pointer;
-  text-shadow: #f7f7f7 0 1px 1px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #888;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.5em 1.5em;
+    cursor: pointer;
+    text-shadow: #f7f7f7 0 1px 1px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #888;
 }
 
 .accountTabs li {
-  *display: inline !important;
+    *display: inline !important;
 }
 
 /* IE7 only */
 
 .accountTabs .selected {
-  background-color: #444 !important;
-  text-shadow: none;
-  border-right-color: #aaa;
-  border-left: none;
-  box-shadow: inset 1px 2px 6px #070707;
+    background-color: #444 !important;
+    text-shadow: none;
+    border-right-color: #aaa;
+    border-left: none;
+    box-shadow: inset 1px 2px 6px #070707;
 }
-
 
 /* slightly enhanced, universal clearfix hack */
 .clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
-.clearfix { display: inline-block; }
+
+.clearfix {
+    display: inline-block;
+}
+
 /* start commented backslash hack \*/
-* html .clearfix { height: 1%; }
-.clearfix { display: block; }
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}
+
 /* close commented backslash hack */
 
-
 .accountSumLeftCol {
-  float: left;
-  width: 160px;
+    float: left;
+    width: 160px;
 }
 
 .accountSumRightCol {
-  float: left;
+    float: left;
 }

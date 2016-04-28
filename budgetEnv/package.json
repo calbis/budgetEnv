@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-	"stop": "pkill --signal SIGINT node"
+    "stop": "pkill --signal SIGINT node"
   },
   "author": "Calvin Bishop",
   "license": "MIT",

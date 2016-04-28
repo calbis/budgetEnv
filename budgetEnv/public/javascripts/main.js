@@ -2,10 +2,10 @@
 /*global ko*/
 /*global Sammy*/
 
-function formatCurrency(value) {
+function formatCurrency( value ) {
 	"use strict";
 
-	return value.toFixed(2);
+	return value.toFixed( 2 );
 }
 
 function AccountsViewModel() {
@@ -19,11 +19,13 @@ function AccountsViewModel() {
 	self.accountSumData = ko.observableArray();
 
 	//TODO: summaryTotalAmount not working
-	self.summaryTotalAmount = ko.pureComputed(function() {
+	self.summaryTotalAmount = ko.pureComputed( function () {
 		var total = 0;
-		$.each(self.accountsData(), function() { total += this.amount })
+		$.each( self.accountsData(), function () {
+			total += this.amount
+		} )
 		return total;
-	});
+	} );
 
 	self.goToAccount = function ( account ) {
 		location.hash = account.name;
