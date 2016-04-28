@@ -1,6 +1,6 @@
 {
-  "name": "budgetEnv",
-  "version": "0.0.0",
+  "name": "budget-env",
+  "version": "0.0.1",
   "dependencies": {
     "accepts": {
       "version": "1.2.13",
