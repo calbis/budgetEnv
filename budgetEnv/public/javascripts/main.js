@@ -41,31 +41,8 @@ function AccountsViewModel() {
 		return - 1;
 	};
 
-	self.getAccountTabs = function () {
-		var data = [
-			{
-				id: 1,
-				name: 'Checking',
-				textColor: 'DarkBlue'
-			}, {
-				id: 2,
-				name: 'Savings',
-				textColor: 'Purple'
-			}, {
-				id: 3,
-				name: 'Credit',
-				textColor: 'Red'
-			}, {
-				id: 4,
-				name: 'Amazon',
-				textColor: 'DarkOrange'
-			}, {
-				id: 5,
-				name: 'Bangor',
-				textColor: 'Green'
-			}
-		];
-		return data;
+	self.setAccountTabs = function () {
+		$.get( "/accounts", self.accounts, "json" );
 	};
 
 	self.getAccountsData = function () {
@@ -167,8 +144,8 @@ function AccountsViewModel() {
 	Sammy( function () {
 		this.get( '#:account', function () {
 			self.activeAccountName( this.params.account );
-			if ( self.accounts === null ) {
-				self.accounts = self.getAccountTabs();
+			if ( self.accounts() == null ) {
+				self.setAccountTabs();
 			}
 			self.accountsData( null );
 			var accountId = self.getAccountIndexByName( this.params.account );    //self.transactionData(self.getTransactionData(accountId, -1));
@@ -184,7 +161,7 @@ function AccountsViewModel() {
 		} );
 
 		this.get( '', function () {
-			self.accounts = self.getAccountTabs();
+			self.setAccountTabs();
 			self.accountsData( self.getAccountsData() );
 			self.activeAccountName( null );
 			self.accountSumData( null );
