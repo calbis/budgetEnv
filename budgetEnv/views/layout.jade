@@ -13,9 +13,14 @@ html
         script(type='text/javascript', src='/javascripts/sammy.min.js')
         script(type='text/javascript', src='/javascripts/main.js')
     body
-            div.clearfix
-                div(style='width: 100px; float: left;')
-                    a(href='#') Home
-                div(style='text-align: right; width: 100px; float: right;').
-                    hello, Calvin.
-            block content
+        #page-wrap
+            #headerBar
+                div.clearfix
+                    div(style='width: 100px; float: left;')
+                        a(href='#') Home
+                    div(style='text-align: right; width: 150px; float: right;').
+                        hello, Calvin.
+                div.clearfix
+                    include header
+            #mainContainer
+                block content

@@ -1,3 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 14px Georgia, serif;
+}
+
+#page-wrap {
+    margin: 15px auto;
+    color: #EBEFDE;
+}
+
+#page-wrap > div {
+    border: 1px solid #999;
+    color: black;
+}
+
+#headerBar {
+    background: #EBEFDE;
+    padding: 10px;
+    margin-bottom: 5px;
+    min-height: 35px;
+    border: solid 2px #999;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+#main-content, #main-content-full, #main-content-fullHidden {
+    background: #EBEFDE;
+    border: solid 2px #999;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+#secondary-one {
+    background: #EBEFDE;
+    border: solid 2px #999;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+#secondary-two {
+    background: #EBEFDE;
+    border: solid 2px #999;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+table td, th {
+    padding: 1px 7px;
+}
+
+
+
+
+
 .accountTabs {
     background-color: #bbb;
     list-style-type: none;
