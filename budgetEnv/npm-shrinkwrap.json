@@ -47,6 +47,9 @@
       "from": "basic-auth@>=1.0.3 <1.1.0",
       "resolved": "https://registry.npmjs.org/basic-auth/-/basic-auth-1.0.3.tgz"
     },
+    "be-lib": {
+      "version": "0.0.1"
+    },
     "better-js-class": {
       "version": "0.1.3",
       "from": "better-js-class@*",
