@@ -1,3 +1,3 @@
 div
     ul.accountTabs(data-bind='foreach: accounts')
-        li(data-bind='text: name, css: { color: textColor, selected: name == $root.activeAccountName() }, click: $root.goToAccount')
+        li(data-bind='text: Name, css: { selected: Name == $root.activeAccountName() }, attr: { class: TextColor }, click: $root.goToAccount')

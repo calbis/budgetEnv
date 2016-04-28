@@ -12,7 +12,7 @@ function AccountsViewModel() {
 	"use strict";
 
 	var self = this;
-	self.accounts = null;
+	self.accounts = ko.observable();
 	self.activeAccountName = ko.observable();
 	self.accountsData = ko.observableArray();
 	self.transactionData = ko.observableArray();
@@ -28,12 +28,12 @@ function AccountsViewModel() {
 	} );
 
 	self.goToAccount = function ( account ) {
-		location.hash = account.name;
+		location.hash = account.Name;
 	};
 
 	self.getAccountIndexByName = function ( accountName ) {
 		for ( var a in self.accounts ) {
-			if ( accountName === self.accounts[ a ].name ) {
+			if ( accountName === self.accounts[ a ].Name ) {
 				return a;
 			}
 		}
@@ -155,7 +155,7 @@ function AccountsViewModel() {
 		} );
 
 		this.get( '#:account/:envelope', function () {
-			self.activeAccountName( this.params.account.name );
+			self.activeAccountName( this.params.account.Name );
 			self.activeAccountData( null );
 			//$.get("/mail", { mailId: this.params.mailId }, self.chosenMailData);
 		} );
