@@ -1,0 +1,43 @@
+@media screen and (min-width: 901px) and (max-width: 1200px) {
+    body {
+        background: #666;
+        font-size: larger;
+    }
+
+    /*#page-wrap:before { content: "medium Layout"; }*/
+    #page-wrap {
+        width: 900px;
+        position: relative;
+    }
+
+    #main-content {
+        float: left;
+        width: 695px;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #secondary-one {
+        width: 695px;
+        float: left;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #secondary-two {
+        float: left;
+        width: 180px;
+        padding-right: 5px;
+    }
+
+    #main-content-full {
+        float: left;
+        width: 695px;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #main-content-fullHidden {
+        display: none;
+    }
+}

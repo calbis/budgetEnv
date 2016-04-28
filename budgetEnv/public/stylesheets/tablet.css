@@ -1,0 +1,22 @@
+@media screen and (min-width: 601px) and (max-width: 900px) {
+    body {
+        background: #666;
+        font-size: large;
+    }
+
+    #page-wrap {
+        width: 600px;
+    }
+
+    /*#page-wrap:before { content: "tablet Layout"; }*/
+    #secondary-two {
+        display: none;
+    }
+
+    #main-content-full {
+        display: none;
+    }
+
+    #main-content-fullHidden {
+    }
+}

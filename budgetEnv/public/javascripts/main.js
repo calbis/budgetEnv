@@ -174,4 +174,34 @@ $( document ).ready( function () {
 	"use strict";
 
 	ko.applyBindings( new AccountsViewModel() );
+
+	/*Width based classes*/
+	function adjustStyle( width ) {
+		$( "body" ).removeClass( "phone" );
+		$( "body" ).removeClass( "tablet" );
+		$( "body" ).removeClass( "medium" );
+		$( "body" ).removeClass( "wide" );
+
+		width = parseInt( width );
+		if ( width < 600 ) {
+			$( "body" ).addClass( "phone" );
+		}
+		else if ( width < 900 ) {
+			$( "body" ).addClass( "tablet" );
+		}
+		else if ( width < 1200 ) {
+			$( "body" ).addClass( "medium" );
+		}
+		else {
+			$( "body" ).addClass( "wide" );
+		}
+	}
+
+	$( function () {
+		adjustStyle( $( this ).width() );
+		$( window ).resize( function () {
+			adjustStyle( $( this ).width() );
+		} );
+	} );
+	/*END Width Based Classes*/
 } );

@@ -1,0 +1,46 @@
+@media screen and (min-width: 1201px) {
+    body {
+        background: #999;
+        font-size: medium;
+    }
+
+    #page-wrap {
+        width: 1200px;
+        position: relative;
+    }
+
+    #dialog {
+        width: 500px;
+    }
+
+    #main-content {
+        float: left;
+        width: 477px;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #secondary-one {
+        width: 563px;
+        float: left;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #secondary-two {
+        float: left;
+        width: 120px;
+        padding-right: 5px;
+    }
+
+    #main-content-full {
+        float: left;
+        width: 1055px;
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #main-content-fullHidden {
+        display: none;
+    }
+}
