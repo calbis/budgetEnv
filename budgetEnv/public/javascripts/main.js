@@ -53,42 +53,9 @@ function AccountsViewModel() {
 	};
 
 	self.getAccountsData = function () {
-		var d = [
-			{
-				id: 1,
-				name: 'Checking',
-				amount: 111.11,
-				pending: 0.11,
-				textColor: 'DarkBlue'
-			}, {
-				id: 2,
-				name: 'Savings',
-				amount: 222.22,
-				pending: 0.22,
-				textColor: 'Purple'
-			}, {
-				id: 3,
-				name: 'Credit',
-				amount: 333.33,
-				pending: 0.33,
-				textColor: 'Red'
-			}, {
-				id: 4,
-				name: 'Amazon',
-				amount: 444.44,
-				pending: 0.44,
-				textColor: 'DarkOrange'
-			}, {
-				id: 5,
-				name: 'Bangor',
-				amount: 555.55,
-				pending: 0.55,
-				textColor: 'Green'
-			}
-		];
-		return {
-			data: d
-		};
+		$.get( "/accounts", function ( rows ) {
+			self.accountsData( { data: rows } );
+		}, "json" );
 	};
 
 	self.getAccountSumData = function ( accountId ) {

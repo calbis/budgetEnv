@@ -6,7 +6,7 @@ var router = express.Router();
 /* GET accounts json. */
 router.get( '/', function ( req, res, next ) {
 	if(req.user) {
-		var q = "Select Id, Name, Color As TextColor From account Where IsClosed = 0 And IsDeleted = 0";
+		var q = "Select A.Id, A.Name, A.Color As TextColor, A.ExternalTotal, S.AccountSum, S.AccountPending From account A Inner Join vw_account_sum S On A.Id = S.AccountId Where A.IsClosed = 0 And A.IsDeleted = 0";
 		db.getRows( q, function ( rows ) {
 			res.writeHead( 200, {'content-type': 'application/json'} );
 			res.write( JSON.stringify( rows ) );
