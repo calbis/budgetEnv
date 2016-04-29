@@ -147,3 +147,7 @@ table td, th {
 .spacedOut {
     padding-left: 10px;
 }
+
+.tableCellNumber {
+    text-align: right;
+}
