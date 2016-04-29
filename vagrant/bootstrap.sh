@@ -21,3 +21,6 @@ yum -y install mariadb-server
 `mysql --database=mysql -u root -e "grant all privileges on *.* to 'manager'@'10.0.%';"`
 `mysql --database=mysql -u root -e "grant select, insert, delete, execute, update on accounts.* to 'www'@'localhost';"`
 `mysql -u root -e "flush privileges;"`
+
+# start mariadb automatically on boot
+systemctl enable mariadb.service
