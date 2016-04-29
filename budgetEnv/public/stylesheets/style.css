@@ -28,7 +28,7 @@ body {
     -webkit-border-radius: 15px;
 }
 
-#main-content, #main-content-full, #main-content-fullHidden {
+.main-content, .main-content-full, .main-content-fullHidden {
     background: #EBEFDE;
     border: solid 2px #999;
     border-radius: 15px;
@@ -36,7 +36,7 @@ body {
     -webkit-border-radius: 15px;
 }
 
-#secondary-one {
+.secondary-one {
     background: #EBEFDE;
     border: solid 2px #999;
     border-radius: 15px;
@@ -44,7 +44,7 @@ body {
     -webkit-border-radius: 15px;
 }
 
-#secondary-two {
+.secondary-two {
     background: #EBEFDE;
     border: solid 2px #999;
     border-radius: 15px;
