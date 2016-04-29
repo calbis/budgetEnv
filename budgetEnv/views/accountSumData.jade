@@ -1,27 +1,27 @@
 #secondary-one
     div(data-bind='with: accountSumData')
         div.clearfix
-            label.accountSumLeftCol
+            label.formLeftCol
                 span(data-bind='text: accountName')
                 |  Balance
-            div.accountSumRightCol(data-bind='text: formatCurrency(totalAmount)')
+            div.formRightCol(data-bind='text: formatCurrency(totalAmount)')
         div.clearfix
-            label.accountSumLeftCol
+            label.formLeftCol
                 span(data-bind='text: accountName')
                 |  Pending
-            div.accountSumRightCol(data-bind='text: formatCurrency(totalPending)')
+            div.formRightCol(data-bind='text: formatCurrency(totalPending)')
         div.clearfix
-            label.accountSumLeftCol
+            label.formLeftCol
                 span(data-bind='text: accountName')
                 |  Grand Total
-            div.accountSumRightCol(data-bind='text: formatCurrency(totalGrand)')
+            div.formRightCol(data-bind='text: formatCurrency(totalGrand)')
         div.clearfix
-            label.accountSumLeftCol(for='txtAccountWebsite')
+            label.formLeftCol(for='txtAccountWebsite')
                 span(data-bind='text: accountName')
                 |  From Website
-            input#txtAccountWebsite.accountSumRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)')
+            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)')
         div.clearfix
-            label.accountSumLeftCol
+            label.formLeftCol
                 span(data-bind='text: accountName')
                 |  Difference
-            div.accountSumRightCol(data-bind='text: formatCurrency(difference)')
+            div.formRightCol(data-bind='text: formatCurrency(difference)')

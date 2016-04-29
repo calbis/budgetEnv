@@ -130,13 +130,15 @@ table td, th {
 
 /* close commented backslash hack */
 
-.accountSumLeftCol {
+.formLeftCol {
     float: left;
     width: 160px;
 }
 
-.accountSumRightCol {
+.formRightCol {
     float: left;
+}
+
 #loginForm {
     width: 350px;
     margin: 20px auto;
