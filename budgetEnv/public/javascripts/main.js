@@ -8,6 +8,13 @@ function formatCurrency( value ) {
 	return value.toFixed( 2 );
 }
 
+function haveAuthedUser() {
+	if ( $( '#authUserGreeting' ).html().indexOf( 'hello,' ) >= 0 ) {
+		return true;
+	}
+	return false;
+}
+
 function AccountsViewModel() {
 	"use strict";
 
@@ -141,31 +148,61 @@ function AccountsViewModel() {
 		};
 	};
 
+	self.clearData = function () {
+		self.accounts( null );
+		self.activeAccountName( null );
+		self.accountsData( null );
+		self.transactionData( null );
+		self.accountSumData( null );
+	};
+
 	Sammy( function () {
+		this.post( '#/login', function () {
+			$.post( '/login', {username: this.params.username, password: this.params.password}, "json" );
+			window.location = "/";
+			return false;
+		} );
+
+		this.get( '#logout', function () {
+			$.get( '/logout' );
+			window.location = "/";
+			return false;
+		} );
+
 		this.get( '#:account', function () {
-			self.activeAccountName( this.params.account );
-			if ( self.accounts() == null ) {
-				self.setAccountTabs();
+			if ( haveAuthedUser() ) {
+				self.activeAccountName( this.params.account );
+				if ( self.accounts() == null ) {
+					self.setAccountTabs();
+				}
+				self.accountsData( null );
+				var accountId = self.getAccountIndexByName( this.params.account );
+				self.accountSumData( self.getAccountSumData( accountId ) );
+				self.transactionData( self.getTransactionData( accountId, - 1 ) );
+			} else {
+				self.clearData();
 			}
-			self.accountsData( null );
-			var accountId = self.getAccountIndexByName( this.params.account );    //self.transactionData(self.getTransactionData(accountId, -1));
-			self.accountSumData( self.getAccountSumData( accountId ) );
-			self.transactionData( self.getTransactionData( accountId, - 1 ) );
-			//$.get("/mail", { folder: this.params.folder }, self.chosenFolderData);
 		} );
 
 		this.get( '#:account/:envelope', function () {
-			self.activeAccountName( this.params.account.Name );
-			self.activeAccountData( null );
-			//$.get("/mail", { mailId: this.params.mailId }, self.chosenMailData);
+			if ( haveAuthedUser() ) {
+				self.activeAccountName( this.params.account.Name );
+				self.activeAccountData( null );
+			} else {
+				self.clearData();
+			}
 		} );
 
 		this.get( '', function () {
-			self.setAccountTabs();
-			self.accountsData( self.getAccountsData() );
-			self.activeAccountName( null );
-			self.accountSumData( null );
-			self.transactionData( null );
+			if ( haveAuthedUser() ) {
+				self.setAccountTabs();
+				self.accountsData( self.getAccountsData() );
+				self.activeAccountName( null );
+				self.accountSumData( null );
+				self.transactionData( null );
+			} else {
+				self.clearData();
+			}
 		} );
 	} ).run();
 }

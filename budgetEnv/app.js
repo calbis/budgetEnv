@@ -4,9 +4,36 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var users = require('./lib/users.js');
 
 var routes = require('./routes/index');
 var accounts = require('./routes/accounts');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
+
+passport.use(new Strategy(
+    function(username, password, cb) {
+      users.findByUsername(username, function(err, user) {
+        if (err) { return cb(err); }
+        if (!user) { return cb(null, false); }
+        if (user.password != password) { return cb(null, false); }
+        return cb(null, user);
+      });
+    }));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
 
 var app = express();
 
@@ -21,9 +48,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('express-session')({ secret: 'change me', resave: false, saveUninitialized: false }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/accounts', accounts);
+app.use('/login', login);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,6 +1,7 @@
 extends layout
 
 block content
-    include accountsData
-    include accountSumData
-    include transactionData
+    if user
+        include accountsData
+        include accountSumData
+        include transactionData

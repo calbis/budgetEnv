@@ -137,4 +137,11 @@ table td, th {
 
 .accountSumRightCol {
     float: left;
+#loginForm {
+    width: 350px;
+    margin: 20px auto;
+}
+
+.spacedOut {
+    padding-left: 10px;
 }

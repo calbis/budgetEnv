@@ -16,11 +16,14 @@ html
         #page-wrap
             #headerBar
                 div.clearfix
-                    div(style='width: 100px; float: left;')
-                        a(href='#') Home
-                    div(style='text-align: right; width: 150px; float: right;').
-                        hello, Calvin.
+                    div(style='width: 150px; float: left;')
+                        a(href='/') Home
+                        if user
+                            a.spacedOut(href='#logout') logout
+                    #authUserGreeting(style='text-align: right; width: 150px; float: right;')
+                        if user
+                            span='hello, ' + user.username
                 div.clearfix
-                    include header
+                        include header
             #mainContainer
                 block content

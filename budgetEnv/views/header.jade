@@ -1,3 +1,16 @@
-nav
-    ul.accountTabs(data-bind='foreach: accounts')
-        li(data-bind='text: Name, css: { selected: Name == $root.activeAccountName() }, attr: { class: TextColor }, click: $root.goToAccount')
+if user
+    nav
+        ul.accountTabs(data-bind='foreach: accounts')
+            li(data-bind='text: Name, css: { selected: Name == $root.activeAccountName() }, attr: { class: TextColor }, click: $root.goToAccount')
+else
+    #loginForm
+        form(action='#/login' method='post')
+            div.clearfix
+                label.formLeftCol(for='username') Username:
+                input.formRightCol(type='text', name='username', id='username', required='required')
+            div.clearfix
+                label.formLeftCol(for='password') Password:
+                input.formRightCol(type='password', name='password', id='password', required='required')
+            div.clearfix
+                div.formLeftCol &nbsp;
+                input.formRightCol(type='submit', value='Submit')
