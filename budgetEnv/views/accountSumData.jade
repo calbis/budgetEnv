@@ -19,7 +19,7 @@
             label.formLeftCol(for='txtAccountWebsite')
                 span(data-bind='text: accountName')
                 |  From Website
-            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)')
+            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)', autofocus, required)
         div.clearfix
             label.formLeftCol
                 span(data-bind='text: accountName')
