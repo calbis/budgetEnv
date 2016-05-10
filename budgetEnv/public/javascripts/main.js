@@ -61,9 +61,7 @@ function AccountsViewModel() {
 
 	self.setEnvelopesSumData = function ( accountId, accountName ) {
 		self.envelopeSumData( null );
-		console.log(accountId + ' ::: ' + accountName);
 		if ( accountId >= 0 || accountName.length > 0 ) {
-			console.log("sadfs");
 			$.post( "/envelopes", {accountId: accountId, accountName: accountName}, function ( rows ) {
 				if ( rows.length > 0 ) {
 					self.envelopeSumData( {data: rows} );
