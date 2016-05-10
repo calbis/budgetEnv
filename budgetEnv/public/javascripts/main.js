@@ -58,10 +58,14 @@ function AccountsViewModel() {
 		}, "json" );
 	};
 
-	self.setAccountSumData = function ( accountId ) {
-		if ( accountId >= 0 ) {
-			$.post( "/accounts", {accountId: accountId}, function ( rows ) {
-				self.accountSumData( rows[ 0 ] );
+	self.setAccountSumData = function ( accountId, accountName ) {
+		if ( accountId >= 0 || accountName.length > 0 ) {
+			$.post( "/accounts", {accountId: accountId, accountName: accountName}, function ( rows ) {
+				if ( rows.length > 0 ) {
+					self.accountSumData( rows[ 0 ] );
+				} else {
+					self.accountSumData( null );
+				}
 			}, 'json' );
 		}
 	};
@@ -136,8 +140,7 @@ function AccountsViewModel() {
 					self.setAccountTabs();
 				}
 				self.accountsData( null );
-				var accountId = self.getAccountIdByName( this.params.account );
-				self.setAccountSumData( accountId );
+				self.setAccountSumData( - 1, this.params.account );
 				self.transactionData( self.getTransactionData( accountId, - 1 ) );
 			} else {
 				self.clearData();
