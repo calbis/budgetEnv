@@ -7,10 +7,10 @@ else
         form(action='#/login' method='post')
             div.clearfix
                 label.formLeftCol(for='username') Username:
-                input.formRightCol(type='text', name='username', id='username', autofocus, required)
+                input.formRightCol(type='text', name='username', id='username', required='required')
             div.clearfix
                 label.formLeftCol(for='password') Password:
-                input.formRightCol(type='password', name='password', id='password', required)
+                input.formRightCol(type='password', name='password', id='password', required='required')
             div.clearfix
                 div.formLeftCol &nbsp;
                 input.formRightCol(type='submit', value='Submit')
