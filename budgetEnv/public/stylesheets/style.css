@@ -132,7 +132,7 @@ table td, th {
 
 .formLeftCol {
     float: left;
-    width: 160px;
+    width: 200px;
 }
 
 .formRightCol {
@@ -140,7 +140,7 @@ table td, th {
 }
 
 #loginForm {
-    width: 350px;
+    width: 380px;
     margin: 20px auto;
 }
 
