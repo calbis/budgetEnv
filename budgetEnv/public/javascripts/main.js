@@ -2,8 +2,27 @@
 /*global ko*/
 /*global Sammy*/
 
+
+function formatDate( date ) {
+	if ( date == null || date.length < 10 ) {
+		return '&nbsp;';
+	}
+
+	return date.substr( 0, 10 );
+}
+
+
 function formatCurrency( value ) {
 	"use strict";
+	return value.toFixed( 2 );
+}
+
+
+function formatCurrencyNoZeros( value ) {
+	"use strict";
+	if ( value == null || value === 0 ) {
+		return '&nbsp;';
+	}
 
 	return value.toFixed( 2 );
 }
@@ -82,46 +101,15 @@ function AccountsViewModel() {
 		}
 	};
 
-	self.getTransactionData = function ( accountId, envelopeId ) {
-		var d = [
-			{
-				id: 1,
-				accountId: accountId,
-				envelopeId: 1,
-				postedDate: '2016-04-22 15:00:00',
-				name: 'Paid Mortgage',
-				amount: 1450.00,
-				pending: 0,
-				textColor: 'DarkBlue',
-				useInStats: 1,
-				isRefund: 0,
-				isDeleted: 0,
-				createdOn: '2016-03-03 13:00:00',
-				createdBy: 1,
-				modifiedOn: '2016-04-04 14:01:01',
-				modifiedBy: 2
-			},
-			{
-				id: 1,
-				accountId: accountId,
-				envelopeId: 2,
-				postedDate: '2016-04-23 16:00:00',
-				name: 'Paid NelNet',
-				amount: 0,
-				pending: -150.55,
-				textColor: 'DarkBlue',
-				useInStats: 1,
-				isRefund: 0,
-				isDeleted: 0,
-				createdOn: '2016-03-03 13:00:00',
-				createdBy: 1,
-				modifiedOn: '2016-04-04 14:01:01',
-				modifiedBy: 2
-			}
-		];
-		return {
-			data: d
-		};
+	self.setTransactionData = function ( accountName ) {
+		self.transactionData( null );
+		if ( accountName.length > 0 ) {
+			$.post( "/transactions", {accountName: accountName}, function ( rows ) {
+				if ( rows.length > 0 ) {
+					self.transactionData( {data: rows} );
+				}
+			}, "json" );
+		}
 	};
 
 	self.clearData = function () {
@@ -152,10 +140,10 @@ function AccountsViewModel() {
 				if ( self.accounts() == null ) {
 					self.setAccountTabs();
 				}
-				self.setEnvelopesSumData( -1, this.params.account );
+				self.setEnvelopesSumData( - 1, this.params.account );
 				self.accountsData( null );
-				self.setAccountSumData( -1, this.params.account );
-				self.transactionData( self.getTransactionData( -1, -1 ) );
+				self.setAccountSumData( - 1, this.params.account );
+				self.setTransactionData( this.params.account );
 			} else {
 				self.clearData();
 			}

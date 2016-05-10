@@ -8,9 +8,9 @@
                 th Pending
                 th &nbsp;
         tbody(data-bind='foreach: data')
-            tr
-                td(data-bind='text: postedDate')
-                td(data-bind='text: name')
-                td(data-bind='text: formatCurrency(amount)')
-                td(data-bind='text: formatCurrency(pending)')
+            tr(data-bind='css: EnvelopeColor')
+                td(data-bind='html: formatDate(PostedDate)')
+                td(data-bind='text: Name')
+                td(data-bind='html: formatCurrencyNoZeros(Amount)')
+                td(data-bind='html: formatCurrencyNoZeros(Pending)')
                 td Actions
