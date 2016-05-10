@@ -13,34 +13,28 @@
         width: 500px;
     }
 
-    #main-content {
+    .main-content {
         float: left;
-        width: 477px;
+        width: 510px;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #secondary-one {
-        width: 563px;
+    .secondary-one {
+        width: 660px;
         float: left;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #secondary-two {
+    .main-content-full {
         float: left;
-        width: 120px;
-        padding-right: 5px;
-    }
-
-    #main-content-full {
-        float: left;
-        width: 1055px;
+        width: 1175px;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #main-content-fullHidden {
+    .main-content-fullHidden {
         display: none;
     }
 }

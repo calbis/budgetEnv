@@ -8,15 +8,10 @@
         width: 600px;
     }
 
-    /*#page-wrap:before { content: "tablet Layout"; }*/
-    #secondary-two {
+    .main-content-full {
         display: none;
     }
 
-    #main-content-full {
-        display: none;
-    }
-
-    #main-content-fullHidden {
+    .main-content-fullHidden {
     }
 }

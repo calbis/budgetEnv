@@ -8,15 +8,10 @@
         width: 550px;
     }
 
-    /*#page-wrap:before { content: "phone Layout"; }*/
-    #secondary-two {
+    .main-content-full {
         display: none;
     }
 
-    #main-content-full {
-        display: none;
-    }
-
-    #main-content-fullHidden {
+    .main-content-fullHidden {
     }
 }

@@ -44,14 +44,6 @@ body {
     -webkit-border-radius: 15px;
 }
 
-.secondary-two {
-    background: #EBEFDE;
-    border: solid 2px #999;
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-}
-
 table td, th {
     padding: 1px 7px;
 }

@@ -10,34 +10,28 @@
         position: relative;
     }
 
-    #main-content {
+    .main-content {
         float: left;
-        width: 695px;
+        width: 600px;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #secondary-one {
-        width: 695px;
+    .secondary-one {
+        width: 890px;
         float: left;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #secondary-two {
+    .main-content-full {
         float: left;
-        width: 180px;
-        padding-right: 5px;
-    }
-
-    #main-content-full {
-        float: left;
-        width: 695px;
+        width: 880px;
         margin-left: 0px;
         padding: 5px;
     }
 
-    #main-content-fullHidden {
+    .main-content-fullHidden {
         display: none;
     }
 }
