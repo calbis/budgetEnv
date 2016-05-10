@@ -141,7 +141,7 @@ function AccountsViewModel() {
 				}
 				self.accountsData( null );
 				self.setAccountSumData( - 1, this.params.account );
-				self.transactionData( self.getTransactionData( accountId, - 1 ) );
+				self.transactionData( self.getTransactionData( -1, - 1 ) );
 			} else {
 				self.clearData();
 			}
