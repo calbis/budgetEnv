@@ -14,6 +14,12 @@ npm install express-generator -g
 # Install mariadb
 yum -y install mariadb-server
 
+# start mariadb automatically on boot
+systemctl enable mariadb.service
+
+# start mariadb
+service mariadb start
+
 # Create users
 `mysql -u root -e "Create Database accounts DEFAULT CHARACTER SET utf8;"`
 `mysql --database=mysql -u root -e "create user 'manager'@'10.0.%' identified by 'Password123';"`
@@ -21,6 +27,3 @@ yum -y install mariadb-server
 `mysql --database=mysql -u root -e "grant all privileges on *.* to 'manager'@'10.0.%';"`
 `mysql --database=mysql -u root -e "grant select, insert, delete, execute, update on accounts.* to 'www'@'localhost';"`
 `mysql -u root -e "flush privileges;"`
-
-# start mariadb automatically on boot
-systemctl enable mariadb.service
