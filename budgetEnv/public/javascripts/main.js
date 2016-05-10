@@ -24,6 +24,7 @@ function AccountsViewModel() {
 	self.accountsData = ko.observableArray();
 	self.transactionData = ko.observableArray();
 	self.accountSumData = ko.observable();
+	self.envelopeSumData = ko.observableArray();
 
 	//TODO: summaryTotalAmount not working
 	self.summaryTotalAmount = ko.pureComputed( function () {
@@ -56,6 +57,19 @@ function AccountsViewModel() {
 		$.get( "/accounts", function ( rows ) {
 			self.accountsData( {data: rows} );
 		}, "json" );
+	};
+
+	self.setEnvelopesSumData = function ( accountId, accountName ) {
+		self.envelopeSumData( null );
+		console.log(accountId + ' ::: ' + accountName);
+		if ( accountId >= 0 || accountName.length > 0 ) {
+			console.log("sadfs");
+			$.post( "/envelopes", {accountId: accountId, accountName: accountName}, function ( rows ) {
+				if ( rows.length > 0 ) {
+					self.envelopeSumData( {data: rows} );
+				}
+			}, "json" );
+		}
 	};
 
 	self.setAccountSumData = function ( accountId, accountName ) {
@@ -118,6 +132,7 @@ function AccountsViewModel() {
 		self.accountsData( null );
 		self.transactionData( null );
 		self.accountSumData( null );
+		self.envelopeSumData( null );
 	};
 
 	Sammy( function () {
@@ -139,6 +154,7 @@ function AccountsViewModel() {
 				if ( self.accounts() == null ) {
 					self.setAccountTabs();
 				}
+				self.setEnvelopesSumData( - 1, this.params.account );
 				self.accountsData( null );
 				self.setAccountSumData( - 1, this.params.account );
 				self.transactionData( self.getTransactionData( -1, - 1 ) );
