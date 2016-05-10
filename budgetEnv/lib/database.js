@@ -10,14 +10,14 @@ var pool = maria.createPool( {
 } );
 
 
-exports.getRows = function ( query, successFn, errorFn ) {
+exports.getRows = function ( queryString, values, successFn, errorFn ) {
 	pool.getConnection( function ( err, connection ) {
 		if ( err ) {
 			connection.release();
 			errorFn( {"code": 100, "message": "Error connecting to the database"} );
 		}
 
-		connection.query( query, function ( err, rows ) {
+		connection.query( queryString, values, function ( err, rows ) {
 			connection.release();
 			if ( ! err ) {
 				successFn( rows );
