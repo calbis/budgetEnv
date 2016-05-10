@@ -23,7 +23,7 @@ function AccountsViewModel() {
 	self.activeAccountName = ko.observable();
 	self.accountsData = ko.observableArray();
 	self.transactionData = ko.observableArray();
-	self.accountSumData = ko.observableArray();
+	self.accountSumData = ko.observable();
 
 	//TODO: summaryTotalAmount not working
 	self.summaryTotalAmount = ko.pureComputed( function () {
@@ -38,10 +38,10 @@ function AccountsViewModel() {
 		location.hash = account.Name;
 	};
 
-	self.getAccountIndexByName = function ( accountName ) {
-		for ( var a in self.accounts ) {
-			if ( accountName === self.accounts[ a ].Name ) {
-				return a;
+	self.getAccountIdByName = function ( accountName ) {
+		for ( var a in self.accounts() ) {
+			if ( accountName === self.accounts()[ a ].Name ) {
+				return self.accounts()[ a ].Id;
 			}
 		}
 
@@ -52,25 +52,18 @@ function AccountsViewModel() {
 		$.get( "/accounts", self.accounts, "json" );
 	};
 
-	self.getAccountsData = function () {
+	self.setAccountsData = function () {
 		$.get( "/accounts", function ( rows ) {
-			self.accountsData( { data: rows } );
+			self.accountsData( {data: rows} );
 		}, "json" );
 	};
 
-	self.getAccountSumData = function ( accountId ) {
-		var d = {
-			accountId: accountId,
-			accountName: 'Bangor',
-			totalAmount: 555.55,
-			totalPending: 0.10,
-			totalGrand: 555.65,
-			fromWebsite: 556.75,
-			difference: 1.10,
-			textColor: 'Green'
-		};
-
-		return d;
+	self.setAccountSumData = function ( accountId ) {
+		if ( accountId >= 0 ) {
+			$.post( "/accounts", {accountId: accountId}, function ( rows ) {
+				self.accountSumData( rows[ 0 ] );
+			}, 'json' );
+		}
 	};
 
 	self.getTransactionData = function ( accountId, envelopeId ) {
@@ -143,27 +136,27 @@ function AccountsViewModel() {
 					self.setAccountTabs();
 				}
 				self.accountsData( null );
-				var accountId = self.getAccountIndexByName( this.params.account );
-				self.accountSumData( self.getAccountSumData( accountId ) );
+				var accountId = self.getAccountIdByName( this.params.account );
+				self.setAccountSumData( accountId );
 				self.transactionData( self.getTransactionData( accountId, - 1 ) );
 			} else {
 				self.clearData();
 			}
 		} );
 
-		this.get( '#:account/:envelope', function () {
-			if ( haveAuthedUser() ) {
-				self.activeAccountName( this.params.account.Name );
-				self.activeAccountData( null );
-			} else {
-				self.clearData();
-			}
-		} );
+//		this.get( '#:account/:envelope', function () {
+//			if ( haveAuthedUser() ) {
+//				self.activeAccountName( this.params.account.Name );
+//				self.activeAccountData( null );
+//			} else {
+//				self.clearData();
+//			}
+//		} );
 
 		this.get( '', function () {
 			if ( haveAuthedUser() ) {
 				self.setAccountTabs();
-				self.accountsData( self.getAccountsData() );
+				self.setAccountsData();
 				self.activeAccountName( null );
 				self.accountSumData( null );
 				self.transactionData( null );

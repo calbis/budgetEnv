@@ -1,27 +1,28 @@
 .secondary-one
+
     div(data-bind='with: accountSumData')
         div.clearfix
             label.formLeftCol
-                span(data-bind='text: accountName')
+                span(data-bind='text: Name')
                 |  Balance
-            div.formRightCol(data-bind='text: formatCurrency(totalAmount)')
+            div.formRightCol(data-bind='text: formatCurrency(AccountSum)')
         div.clearfix
             label.formLeftCol
-                span(data-bind='text: accountName')
+                span(data-bind='text: Name')
                 |  Pending
-            div.formRightCol(data-bind='text: formatCurrency(totalPending)')
+            div.formRightCol(data-bind='text: formatCurrency(AccountPending)')
         div.clearfix
             label.formLeftCol
-                span(data-bind='text: accountName')
+                span(data-bind='text: Name')
                 |  Grand Total
-            div.formRightCol(data-bind='text: formatCurrency(totalGrand)')
+            div.formRightCol(data-bind='text: Name')
         div.clearfix
             label.formLeftCol(for='txtAccountWebsite')
-                span(data-bind='text: accountName')
+                span(data-bind='text: Name')
                 |  From Website
-            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(fromWebsite)', autofocus, required)
+            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(ExternalTotal)')
         div.clearfix
             label.formLeftCol
-                span(data-bind='text: accountName')
+                span(data-bind='text: Name')
                 |  Difference
-            div.formRightCol(data-bind='text: formatCurrency(difference)')
+            div.formRightCol(data-bind='text: Name')
