@@ -157,14 +157,13 @@ function AccountsViewModel() {
 //		} );
 
 		this.get( '', function () {
+			self.clearData();
 			if ( haveAuthedUser() ) {
 				self.setAccountTabs();
 				self.setAccountsData();
 				self.activeAccountName( null );
 				self.accountSumData( null );
 				self.transactionData( null );
-			} else {
-				self.clearData();
 			}
 		} );
 	} ).run();
