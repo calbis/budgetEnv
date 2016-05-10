@@ -10,6 +10,7 @@ var users = require('./lib/users.js');
 
 var routes = require('./routes/index');
 var accounts = require('./routes/accounts');
+var envelopes = require('./routes/envelopes');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 
@@ -55,6 +56,7 @@ app.use(passport.session());
 
 app.use('/', routes);
 app.use('/accounts', accounts);
+app.use('/envelopes', envelopes);
 app.use('/login', login);
 app.use('/logout', logout);
 
