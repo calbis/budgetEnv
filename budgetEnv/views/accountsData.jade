@@ -7,9 +7,9 @@ div.main-content
                 th Pending
         tbody(data-bind='foreach: data')
             tr
-            td(data-bind='text: Name, css: TextColor')
-            td.tableCellNumber(data-bind='text: formatCurrency(AccountSum)')
-            td.tableCellNumber(data-bind='text: formatCurrency(AccountPending)')
+                td(data-bind='text: Name, css: TextColor')
+                td.tableCellNumber(data-bind='text: formatCurrency(AccountSum)')
+                td.tableCellNumber(data-bind='text: formatCurrency(AccountPending)')
         tfoot
             tr
                 th Total

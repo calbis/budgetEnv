@@ -110,7 +110,7 @@ function AccountsViewModel() {
 				postedDate: '2016-04-23 16:00:00',
 				name: 'Paid NelNet',
 				amount: 0,
-				pending: - 150.55,
+				pending: -150.55,
 				textColor: 'DarkBlue',
 				useInStats: 1,
 				isRefund: 0,
@@ -154,10 +154,10 @@ function AccountsViewModel() {
 				if ( self.accounts() == null ) {
 					self.setAccountTabs();
 				}
-				self.setEnvelopesSumData( - 1, this.params.account );
+				self.setEnvelopesSumData( -1, this.params.account );
 				self.accountsData( null );
-				self.setAccountSumData( - 1, this.params.account );
-				self.transactionData( self.getTransactionData( -1, - 1 ) );
+				self.setAccountSumData( -1, this.params.account );
+				self.transactionData( self.getTransactionData( -1, -1 ) );
 			} else {
 				self.clearData();
 			}
