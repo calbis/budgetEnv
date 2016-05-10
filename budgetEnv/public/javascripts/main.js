@@ -59,12 +59,12 @@ function AccountsViewModel() {
 	};
 
 	self.setAccountSumData = function ( accountId, accountName ) {
+		self.accountSumData( null );
+
 		if ( accountId >= 0 || accountName.length > 0 ) {
 			$.post( "/accounts", {accountId: accountId, accountName: accountName}, function ( rows ) {
 				if ( rows.length > 0 ) {
 					self.accountSumData( rows[ 0 ] );
-				} else {
-					self.accountSumData( null );
 				}
 			}, 'json' );
 		}
