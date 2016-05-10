@@ -22,7 +22,7 @@ html
                             a.spacedOut(href='#logout') logout
                     #authUserGreeting(style='text-align: right; width: 150px; float: right;')
                         if user
-                            span='hello, ' + user.username
+                            span='hello, ' + user.displayName
                 div.clearfix
                         include header
             #mainContainer
