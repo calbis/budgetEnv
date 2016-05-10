@@ -1,0 +1,16 @@
+div.main-content
+    table(data-bind='with: envelopeSumData')
+        thead
+            tr
+                th Envelope
+                th Amount
+                th Pending
+                th Cost/Month
+                th Remain
+        tbody(data-bind='foreach: data')
+            tr
+                td(data-bind='text: EnvelopeName, css: EnvelopeColor')
+                td.tableCellNumber(data-bind='text: formatCurrency(EnvelopeSum)')
+                td.tableCellNumber(data-bind='text: formatCurrency(EnvelopePending)')
+                td.tableCellNumber(data-bind='text: formatCurrency(StatsCost)')
+                td.tableCellNumber(data-bind='text: formatCurrency(TimeLeft)')
