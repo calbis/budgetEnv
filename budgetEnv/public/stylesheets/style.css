@@ -136,6 +136,11 @@ table td, th {
     margin: 20px auto;
 }
 
+#accountSumData {
+    width: 300px;
+    margin: 5px auto;
+}
+
 .spacedOut {
     padding-left: 10px;
 }

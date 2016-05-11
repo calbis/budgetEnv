@@ -1,5 +1,5 @@
 .main-content
-    div(data-bind='with: accountSumData')
+    #accountSumData(data-bind='with: accountSumData')
         div.clearfix
             label.formLeftCol
                 span(data-bind='text: Name')
@@ -19,7 +19,7 @@
             label.formLeftCol(for='txtAccountWebsite')
                 span(data-bind='text: Name')
                 |  From Website
-            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(ExternalTotal)')
+            input#txtAccountWebsite.formRightCol(type='number', data-bind='value: formatCurrency(ExternalTotal)', style='width: 80px')
         div.clearfix
             label.formLeftCol
                 span(data-bind='text: Name')
