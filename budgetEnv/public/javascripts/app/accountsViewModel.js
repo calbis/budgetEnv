@@ -38,24 +38,61 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 			return - 1;
 		};
 
+		self.getData = function ( method, url, data, dataType, onSuccess ) {
+			var request = $.ajax( {
+				method: method,
+				url: url,
+				data: data,
+				dataType: dataType
+			} );
+
+			request.done( function ( rows ) {
+				onSuccess( rows );
+			} );
+
+			request.fail( function ( jqXHR, textStatus, errorThrown ) {
+				//TODO: fill this out and replace ugly alerts with a flashy message to user
+				switch ( jqXHR.status ) {
+					case 400:
+						alert( "bad request" );
+						break;
+					case 401:
+						alert( "unauthorized" );
+						window.location = "/";
+						break;
+					case 404:
+						alert( "Not Found" );
+						break;
+					case 500:
+						alert( "unhandled server error" );
+						break;
+					default:
+						alert( jqXHR.status + ": " + errorThrown );
+				}
+			} );
+		};
+
 		self.setAccountTabs = function () {
-			$.get( "/accounts", self.accounts, "json" );
+			self.getData( 'GET', "/accounts", null, "json", self.accounts, false );
 		};
 
 		self.setAccountsData = function () {
-			$.get( "/accounts", function ( rows ) {
+			self.getData( "GET", "/accounts", null, "json", function ( rows ) {
 				self.accountsData( {data: rows} );
-			}, "json" );
+			} );
 		};
 
 		self.setEnvelopesSumData = function ( accountId, accountName ) {
 			self.envelopeSumData( null );
 			if ( accountId >= 0 || accountName.length > 0 ) {
-				$.post( "/envelopes", {accountId: accountId, accountName: accountName}, function ( rows ) {
+				self.getData( "POST", "/envelopes", {
+					accountId: accountId,
+					accountName: accountName
+				}, "json", function ( rows ) {
 					if ( rows.length > 0 ) {
 						self.envelopeSumData( {data: rows} );
 					}
-				}, "json" );
+				} );
 			}
 		};
 
@@ -63,22 +100,27 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 			self.accountSumData( null );
 
 			if ( accountId >= 0 || accountName.length > 0 ) {
-				$.post( "/accounts", {accountId: accountId, accountName: accountName}, function ( rows ) {
-					if ( rows.length > 0 ) {
-						self.accountSumData( rows[ 0 ] );
+
+				self.getData( "POST", "/accounts", {
+						accountId: accountId,
+						accountName: accountName
+					}, "json", function ( rows ) {
+						if ( rows.length > 0 ) {
+							self.accountSumData( rows[ 0 ] );
+						}
 					}
-				}, 'json' );
+				);
 			}
 		};
 
 		self.setTransactionData = function ( accountName ) {
 			self.transactionData( null );
 			if ( accountName.length > 0 ) {
-				$.post( "/transactions", {accountName: accountName}, function ( rows ) {
+				self.getData( "POST", "/transactions", {accountName: accountName}, "json", function ( rows ) {
 					if ( rows.length > 0 ) {
 						self.transactionData( {data: rows} );
 					}
-				}, "json" );
+				} );
 			}
 		};
 
@@ -93,13 +135,16 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 
 		sammy( function () {
 			this.post( '#/login', function () {
-				$.post( '/login', {username: this.params.username, password: this.params.password}, "json" );
+				self.getData( "POST", "/login", {
+					username: this.params.username,
+					password: this.params.password
+				}, "json", null );
 				window.location = "/";
 				return false;
 			} );
 
 			this.get( '#logout', function () {
-				$.get( '/logout' );
+				self.getData( "GET", "/logout", null, null, null );
 				window.location = "/";
 				return false;
 			} );
