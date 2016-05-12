@@ -53,6 +53,10 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 			request.fail( function ( jqXHR, textStatus, errorThrown ) {
 				//TODO: fill this out and replace ugly alerts with a flashy message to user
 				switch ( jqXHR.status ) {
+					case 302:
+					case 303:
+					case 304:
+						break;
 					case 400:
 						alert( "bad request" );
 						break;
@@ -66,8 +70,6 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 					case 500:
 						alert( "unhandled server error" );
 						break;
-					default:
-						alert( jqXHR.status + ": " + errorThrown );
 				}
 			} );
 		};
