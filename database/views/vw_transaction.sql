@@ -24,6 +24,9 @@ AS
          AND E.IsClosed = 0
     INNER JOIN baseEnvelope BE
       ON E.BaseEnvelopeId = BE.Id
-  ORDER BY T.Pending DESC
+  ORDER BY
+    CASE WHEN ifnull(T.pending, 0) = 0
+      THEN 1
+    ELSE 2 END DESC
     , T.PostedDate DESC
     , T.Name ASC;
