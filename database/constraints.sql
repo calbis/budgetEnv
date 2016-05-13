@@ -4,6 +4,7 @@ ADD CONSTRAINT `FK_AccountsModifiedBy_ToUsersId` FOREIGN KEY (`ModifiedBy`) REFE
 
 ALTER TABLE `envelope`
 ADD CONSTRAINT `FK_EnvelopesAccountId_ToAccountId` FOREIGN KEY (`AccountId`) REFERENCES `account` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `FK_EnvelopesBaseEnvelopeId_ToBaseEnvelopeId` FOREIGN KEY (`BaseEnvelopeId`) REFERENCES `baseEnvelope` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `FK_EnvelopesCreatedBy_ToUsersId` FOREIGN KEY (`CreatedBy`) REFERENCES `user` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `FK_EnvelopesModifiedBy_ToUsersId` FOREIGN KEY (`ModifiedBy`) REFERENCES `user` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
