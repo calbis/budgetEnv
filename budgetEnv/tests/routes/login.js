@@ -42,8 +42,8 @@ describe( "Login Routes", function () {
 		it( "Successful attempt to login", function ( done ) {
 			request.post( helper.baseUrl + "login", {
 				json: {
-					username: 'jack',
-					password: 'secret'
+					username: helper.username,
+					password: helper.password
 				}
 			}, function ( error, res, body ) {
 				try {
