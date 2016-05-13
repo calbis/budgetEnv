@@ -7,6 +7,7 @@ var bodyParser = require( 'body-parser' );
 var passport = require( 'passport' );
 var Strategy = require( 'passport-local' ).Strategy;
 var users = require( './lib/users.js' );
+var helmet = require( 'helmet' );
 
 var routes = require( './routes/index' );
 var accounts = require( './routes/accounts' );
@@ -46,6 +47,8 @@ passport.deserializeUser( function ( id, cb ) {
 
 
 var app = express();
+
+app.use( helmet() );
 
 // view engine setup
 app.set( 'views', path.join( __dirname, 'views' ) );
