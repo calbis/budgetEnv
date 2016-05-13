@@ -8,6 +8,7 @@ var passport = require( 'passport' );
 var Strategy = require( 'passport-local' ).Strategy;
 var users = require( './lib/users.js' );
 var helmet = require( 'helmet' );
+var session = require( 'express-session' );
 
 var routes = require( './routes/index' );
 var accounts = require( './routes/accounts' );
@@ -49,6 +50,24 @@ passport.deserializeUser( function ( id, cb ) {
 var app = express();
 
 app.use( helmet() );
+
+var sessionValues = {
+	secret: 'change-me',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		name: 'session',
+		httpOnly: true,
+		domain: 'localhost',
+		path: '/'
+	}
+};
+if ( app.get( 'env' ) === 'production' ) {
+	app.set( 'trust proxy', 1 );
+	sessionValues.cookie.secure = true;
+}
+app.use( session( sessionValues ) );
+
 
 // view engine setup
 app.set( 'views', path.join( __dirname, 'views' ) );
