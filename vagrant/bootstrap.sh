@@ -8,8 +8,9 @@ curl --silent --location https://rpm.nodesource.com/setup_5.x | bash -
 yum -y install nodejs
 yum -y install gcc-c++ make
 
-# we want to use express generator globally 
+# Install nodejs global packages
 npm install express-generator -g
+npm install mocha -g
 
 # Install mariadb
 yum -y install mariadb-server
