@@ -32,4 +32,4 @@ VALUES
   (1, 'Transfer to Savings', '2016-05-04', -100, 0, now(), 1, now(), 1),
   (2, 'Transfer from Checking', '2016-05-04', 100, 0, now(), 1, now(), 1),
   (3, 'Amazon, cereal', '2016-05-05', null, -10.17, now(), 1, now(), 1),
-  (1, 'Amazon, coffee', '2016-05-05', null, -5.54, now(), 1, now(), 1);
+  (3, 'Amazon, coffee', '2016-05-05', null, -5.54, now(), 1, now(), 1);
