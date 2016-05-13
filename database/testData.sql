@@ -18,18 +18,18 @@ SELECT A.Id
 FROM `accounts`.`account` A
 CROSS JOIN `accounts`.`baseEnvelope` BE;
 
-INSERT INTO `accounts`.`transaction` (`EnvelopeId`, `Name`, `PostedDate`, `Amount`, `Pending`, `CreatedOn`, `CreatedBy`, `ModifiedOn`, `ModifiedBy`)
+INSERT INTO `accounts`.`transaction` (`EnvelopeId`, `Name`, `PostedDate`, `UseInStats`, `IsRefund`, `IsDeleted`, `Amount`, `Pending`, `CreatedOn`, `CreatedBy`, `ModifiedOn`, `ModifiedBy`)
 VALUES
-  (1, 'Balance', '2016-05-01', 100, 0, now(), 1, now(), 1),
-  (2, 'Balance', '2016-05-01', 200, 0, now(), 1, now(), 1),
-  (3, 'Balance', '2016-05-01', 30, 0, now(), 1, now(), 1),
-  (5, 'Balance', '2016-05-01', 50, 0, now(), 1, now(), 1),
-  (3, 'Food store, groceries', '2016-05-02', -75.00, 0, now(), 1, now(), 1),
-  (5, 'Gas store, gas', '2016-05-02', -25.50, 0, now(), 1, now(), 1),
-  (1, 'Paycheck', '2016-05-03', 100, 0, now(), 1, now(), 1),
-  (3, 'Paycheck', '2016-05-03', 150, 0, now(), 1, now(), 1),
-  (5, 'Paycheck', '2016-05-03', 40, 0, now(), 1, now(), 1),
-  (1, 'Transfer to Savings', '2016-05-04', -100, 0, now(), 1, now(), 1),
-  (2, 'Transfer from Checking', '2016-05-04', 100, 0, now(), 1, now(), 1),
-  (3, 'Amazon, cereal', '2016-05-05', null, -10.17, now(), 1, now(), 1),
-  (3, 'Amazon, coffee', '2016-05-05', null, -5.54, now(), 1, now(), 1);
+  (1, 'Balance', '2016-05-01', 1, 0, 0, 100, 0, now(), 1, now(), 1),
+  (2, 'Balance', '2016-05-01', 1, 0, 0, 200, 0, now(), 1, now(), 1),
+  (3, 'Balance', '2016-05-01', 1, 0, 0, 30, 0, now(), 1, now(), 1),
+  (5, 'Balance', '2016-05-01', 1, 0, 0, 50, 0, now(), 1, now(), 1),
+  (3, 'Food store, groceries', 1, 0, 0, '2016-05-02', -75.00, 0, now(), 1, now(), 1),
+  (5, 'Gas store, gas', '2016-05-02', 1, 0, 0, -25.50, 0, now(), 1, now(), 1),
+  (1, 'Paycheck', '2016-05-03', 1, 0, 0, 100, 0, now(), 1, now(), 1),
+  (3, 'Paycheck', '2016-05-03', 1, 0, 0, 150, 0, now(), 1, now(), 1),
+  (5, 'Paycheck', '2016-05-03', 1, 0, 0, 40, 0, now(), 1, now(), 1),
+  (1, 'Transfer to Savings', '2016-05-04', 0, 0, 0, -100, 0, now(), 1, now(), 1),
+  (2, 'Transfer from Checking', '2016-05-04', 0, 0, 0, 100, 0, now(), 1, now(), 1),
+  (3, 'Amazon, cereal', '2016-05-05', 1, 0, 0, null, -10.17, now(), 1, now(), 1),
+  (3, 'Amazon, coffee', '2016-05-05', 1, 0, 0, null, -5.54, now(), 1, now(), 1);
