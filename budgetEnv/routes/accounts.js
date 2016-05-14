@@ -5,7 +5,7 @@ var router = express.Router();
 
 function SendAccountSumDataById( response, accountId ) {
 	var q = "Select A.Id, A.Name, A.Color As TextColor, A.ExternalTotal, S.AccountSum, S.AccountPending From account A Inner Join vw_account_sum S On A.Id = S.AccountId Where A.IsClosed = 0 And A.IsDeleted = 0 And A.Id = ?";
-	db.getRows( q, [ accountId ], function ( rows ) {
+	db.getRows( q, [accountId], function ( rows ) {
 		response.writeHead( 200, {'content-type': 'application/json'} );
 		response.write( JSON.stringify( rows ) );
 		response.end( '\n' );
@@ -23,9 +23,9 @@ router.post( '/', function ( req, res, next ) {
 			SendAccountSumDataById( res, req.body.accountId );
 		} else if ( req.body.accountName.length > 0 ) {
 			var q = "Select Id From account Where Name = ?";
-			db.getRows( q, [ req.body.accountName ], function ( rows ) {
+			db.getRows( q, [req.body.accountName], function ( rows ) {
 				if ( rows.length > 0 ) {
-					SendAccountSumDataById( res, rows[ 0 ].Id );
+					SendAccountSumDataById( res, rows[0].Id );
 				}
 			} );
 		} else {
