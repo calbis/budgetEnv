@@ -9,9 +9,9 @@ before_script:
   - mysql -e "Create Database accounts DEFAULT CHARACTER SET utf8;"
   - mysql --database=mysql -e "create user 'manager'@'localhost' identified by 'Password123';"
   - mysql --database=mysql -e "create user 'www'@'localhost' identified by 'Password123';"
-  - mysql --database=mysql -e "grant all privileges on *.* to 'manager'@'localhost';"
-  - mysql --database=mysql -e "grant select, insert, delete, execute, update on accounts.* to 'www'@'localhost';"
-  - mysql -e "flush privileges;"
+  - mysql --database=mysql -u root -e "grant all privileges on *.* to 'manager'@'localhost';"
+  - mysql --database=mysql -u root -e "grant select, insert, delete, execute, update on accounts.* to 'www'@'localhost';"
+  - mysql -u root -e "flush privileges;"
   - . ./database/install.sh
   - cat ./database/testData.sql | mysql --database=accounts -u manager -pPassword123;
 after_script:
