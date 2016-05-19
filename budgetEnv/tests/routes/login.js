@@ -1,18 +1,17 @@
+/* global describe, it */
+
+'use strict';
+
 var helper = require( '../helper.js' );
 var expect = require( "chai" ).expect;
-var request = require( "request" );
+var needle = require( "needle" );
 
 
 describe( "Login Routes", function () {
 	it( "GET method not allowed", function ( done ) {
-		request.get( helper.baseUrl + "login", function ( error, res, body ) {
-			try {
-				expect( res ).to.exist;
-				expect( res.statusCode ).to.equal( 404 );
-			} catch ( e ) {
-				done( e );
-				return;
-			}
+		needle.get( helper.baseUrl + "login", function ( err, res ) {
+			expect( res ).to.exist;
+			expect( res.statusCode ).to.equal( 404 );
 
 			done();
 		} );
@@ -20,40 +19,26 @@ describe( "Login Routes", function () {
 
 	describe( "Login to application", function () {
 		it( "Failed attempt to login", function ( done ) {
-			request.post( helper.baseUrl + "login", {
-				json: {
-					username: 'garbage',
-					password: 'trash'
-				}
-			}, function ( error, res, body ) {
-				try {
-					expect( error ).to.be.null;
-					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 401 );
-				} catch ( e ) {
-					done( e );
-					return;
-				}
+			needle.post( helper.baseUrl + "login", {
+				username: 'garbage',
+				password: 'trash'
+			}, function ( err, res ) {
+				expect( err ).to.not.exist;
+				expect( res ).to.exist;
+				expect( res.statusCode ).to.equal( 401 );
 
 				done();
 			} );
 		} );
 
 		it( "Successful attempt to login", function ( done ) {
-			request.post( helper.baseUrl + "login", {
-				json: {
-					username: helper.username,
-					password: helper.password
-				}
-			}, function ( error, res, body ) {
-				try {
-					expect( error ).to.be.null;
-					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 302 );
-				} catch ( e ) {
-					done( e );
-					return;
-				}
+			needle.post( helper.baseUrl + "login", {
+				username: helper.username,
+				password: helper.password
+			}, function ( err, res ) {
+				expect( err ).to.not.exist;
+				expect( res ).to.exist;
+				expect( res.statusCode ).to.equal( 302 );
 
 				done();
 			} );

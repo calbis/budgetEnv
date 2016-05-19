@@ -1,37 +1,55 @@
+/* global describe, it, expect, after */
+
+'use strict';
+
 var helper = require( '../helper.js' );
 var expect = require( "chai" ).expect;
-var request = require( "request" );
+var needle = require( "needle" );
+
 
 describe( "Accounts Routes", function () {
 	describe( "Unauthorized Access", function () {
 
 		it( "Accounts via GET method", function ( done ) {
-			request( helper.baseUrl + "accounts", function ( error, response, body ) {
-				try {
-					expect( response ).to.exist;
-					expect( response.statusCode ).to.equal( 401 );
-				} catch ( e ) {
-					done( e );
-				}
+			needle.get( helper.baseUrl + "accounts", function ( err, res ) {
+				expect( res ).to.exist;
+				expect( res.statusCode ).to.equal( 401 );
+
+				done();
 			} );
-			done();
 		} );
 
 		it( "Accounts via POST method", function ( done ) {
-			request.post( helper.baseUrl + "accounts", { json: { accountId: 1 } }, function ( error, response, body ) {
-				try {
-					expect( response ).to.exist;
-					expect( response.statusCode ).to.equal( 401 );
-				} catch ( e ) {
-					done( e );
-				}
-			} );
-			done();
+			needle.post( helper.baseUrl + "accounts",
+				{
+					accountId: 1
+				}, function ( err, res ) {
+					expect( res ).to.exist;
+					expect( res.statusCode ).to.equal( 401 );
+					done();
+				} );
 		} );
 
 	} );
 
 	describe( "Authorized Routes", function () {
+		before( function ( done ) {
+			helper.loginToApp( done );
+		} );
 
+		it( "Accounts via GET method", function ( done ) {
+			needle.get( helper.baseUrl + "accounts", {
+				cookies: helper.getCookies()
+			}, function ( err, res ) {
+				expect( err ).to.not.exist;
+				expect( res ).to.exist;
+				expect( res.statusCode ).to.equal( 200 );
+				done();
+			} );
+		} );
+
+		after( function ( done ) {
+			helper.logoutOfApp( done );
+		} );
 	} );
 } );
