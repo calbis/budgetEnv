@@ -12,8 +12,9 @@ before_script:
   - mysql --database=mysql -u root -e "grant all privileges on *.* to 'manager'@'localhost';"
   - mysql --database=mysql -u root -e "grant select, insert, delete, execute, update on accounts.* to 'www'@'localhost';"
   - mysql -u root -e "flush privileges;"
+  - cat ./database/tables/user.sql | mysql --database=accounts -u manager -pPassword123
+  - mysql --database=accounts -u www -pPassword123 -e "Select * From accounts.user;"
   - bash ./database/install.sh
   - cat ./database/testData.sql | mysql --database=accounts -u manager -pPassword123;
-  - mysql --database=accounts -u www -pPassword123 -e "Select * From accounts.user;"
 after_script:
   - mysql -e "Drop Database accounts;"
