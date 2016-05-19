@@ -14,5 +14,6 @@ before_script:
   - mysql -u root -e "flush privileges;"
   - bash ./database/install.sh
   - cat ./database/testData.sql | mysql --database=accounts -u manager -pPassword123;
+  - curl http://localhost:3000/
 after_script:
   - mysql -e "Drop Database accounts;"
