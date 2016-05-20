@@ -1,6 +1,7 @@
 'use strict';
 
 var needle = require( 'needle' );
+var expect = require( "chai" ).expect;
 
 var cookies = {};
 
@@ -48,3 +49,22 @@ exports.logoutOfApp = function( callBack ) {
 		return;
 	} );
 };
+
+
+exports.CheckForProperAccount = function( account ) {
+	expect( account ).to.have.property( 'Id' )
+	                 .that.is.a( 'number' )
+	                 .to.be.at.least( 1 );
+	expect( account ).to.have.property( 'Name' )
+	                 .that.is.a( 'string' )
+	                 .to.have.length.of.at.least( 1 );
+	expect( account ).to.have.property( 'TextColor' )
+	                 .that.is.a( 'string' )
+	                 .to.have.length.of.at.least( 1 );
+	expect( account ).to.have.property( 'ExternalTotal' )
+	                 .that.is.a( 'number' );
+	expect( account ).to.have.property( 'AccountSum' )
+	                 .that.is.a( 'number' );
+	expect( account ).to.have.property( 'AccountPending' )
+	                 .that.is.a( 'number' );
+}

@@ -36,7 +36,7 @@ describe( "Accounts Routes", function() {
 			helper.loginToApp( done );
 		} );
 
-		describe( "Accounts via GET method", function() {
+		describe( "Via GET method", function() {
 			it( "Properly formatted request", function( done ) {
 				needle.get( helper.baseUrl + "accounts", {
 					cookies: helper.getCookies()
@@ -44,56 +44,34 @@ describe( "Accounts Routes", function() {
 					expect( err ).to.not.exist;
 					expect( res ).to.exist;
 					expect( res.statusCode ).to.equal( 200 );
+
+					expect( res.body ).to.be.an( 'array' );
+					expect( res.body ).to.not.be.empty;
+					helper.CheckForProperAccount( res.body[ 0 ] );
+
 					done();
 				} );
 			} );
 		} );
 
-		describe( "Accounts Via POST method", function() {
-			it( "No account id or name provided", function( done ) {
-				needle.post( helper.baseUrl + "accounts",
-					null, {
-						cookies: helper.getCookies()
-					}, function( err, res ) {
-						expect( err ).to.not.exist;
-						expect( res ).to.exist;
-						expect( res.statusCode ).to.equal( 400 );
-						done();
-					} );
-			} );
+		describe( "Via POST method", function() {
+			describe( "Expected Bad requests", function() {
+				it( "No account id or name provided", function( done ) {
+					needle.post( helper.baseUrl + "accounts",
+						null, {
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
+				} );
 
-			it( "Negative account id provided", function( done ) {
-				needle.post( helper.baseUrl + "accounts",
-					{
-						accountId: - 1
-					}, {
-						cookies: helper.getCookies()
-					}, function( err, res ) {
-						expect( err ).to.not.exist;
-						expect( res ).to.exist;
-						expect( res.statusCode ).to.equal( 400 );
-						done();
-					} );
-			} );
-
-			it( "Invalid account id provided", function( done ) {
-				needle.post( helper.baseUrl + "accounts",
-					{
-						accountId: "abcxyz"
-					}, {
-						cookies: helper.getCookies()
-					}, function( err, res ) {
-						expect( err ).to.not.exist;
-						expect( res ).to.exist;
-						expect( res.statusCode ).to.equal( 400 );
-						done();
-					} );
-			} );
-
-			it( "Invalid account name provided", function( done ) {
+				it( "Negative account id provided", function( done ) {
 					needle.post( helper.baseUrl + "accounts",
 						{
-							accountName: "boogers"
+							accountId: - 1
 						}, {
 							cookies: helper.getCookies()
 						}, function( err, res ) {
@@ -102,37 +80,78 @@ describe( "Accounts Routes", function() {
 							expect( res.statusCode ).to.equal( 400 );
 							done();
 						} );
-				}
-			);
+				} );
 
-			it( "Proper account id provided", function( done ) {
-				needle.post( helper.baseUrl + "accounts",
-					{
-						accountId: 1
-					}, {
-						cookies: helper.getCookies()
-					}, function( err, res ) {
-						expect( err ).to.not.exist;
-						expect( res ).to.exist;
-						expect( res.statusCode ).to.equal( 200 );
-						done();
-					} );
-			} );
-
-			it( "Valid account name provided", function( done ) {
+				it( "Invalid account id provided", function( done ) {
 					needle.post( helper.baseUrl + "accounts",
 						{
-							accountName: "Checking"
+							accountId: "abcxyz"
+						}, {
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
+				} );
+
+				it( "Invalid account name provided", function( done ) {
+						needle.post( helper.baseUrl + "accounts",
+							{
+								accountName: "boogers"
+							}, {
+								cookies: helper.getCookies()
+							}, function( err, res ) {
+								expect( err ).to.not.exist;
+								expect( res ).to.exist;
+								expect( res.statusCode ).to.equal( 400 );
+								done();
+							} );
+					}
+				);
+			} );
+
+			describe( "Valid requests", function() {
+				it( "Proper account id provided", function( done ) {
+					needle.post( helper.baseUrl + "accounts",
+						{
+							accountId: 1
 						}, {
 							cookies: helper.getCookies()
 						}, function( err, res ) {
 							expect( err ).to.not.exist;
 							expect( res ).to.exist;
 							expect( res.statusCode ).to.equal( 200 );
+
+							expect( res.body ).to.be.an( 'array' );
+							expect( res.body ).to.not.be.empty;
+							helper.CheckForProperAccount( res.body[ 0 ] );
+
 							done();
 						} );
-				}
-			);
+				} );
+
+				it( "Valid account name provided", function( done ) {
+						needle.post( helper.baseUrl + "accounts",
+							{
+								accountName: "Checking"
+							}, {
+								cookies: helper.getCookies()
+							}, function( err, res ) {
+								expect( err ).to.not.exist;
+								expect( res ).to.exist;
+								expect( res.statusCode ).to.equal( 200 );
+
+								expect( res.body ).to.be.an( 'array' );
+								expect( res.body ).to.not.be.empty;
+								helper.CheckForProperAccount( res.body[ 0 ] );
+
+								done();
+							} );
+					}
+				);
+			} );
 
 			after( function( done ) {
 				helper.logoutOfApp( done );
