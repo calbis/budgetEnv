@@ -9,28 +9,28 @@ exports.username = "jack";
 exports.password = "secret";
 
 
-exports.getCookies = function () {
+exports.getCookies = function() {
 	return cookies;
 };
 
 
-exports.addCookie = function ( key, value ) {
-	cookies[key] = value;
+exports.addCookie = function( key, value ) {
+	cookies[ key ] = value;
 };
 
 
-exports.getCookie = function ( cookieName ) {
-	return cookies[cookieName];
+exports.getCookie = function( cookieName ) {
+	return cookies[ cookieName ];
 };
 
 
-exports.loginToApp = function ( callBack ) {
+exports.loginToApp = function( callBack ) {
 	needle.post( exports.baseUrl + "login", {
 		username: exports.username,
 		password: exports.password
-	}, {}, function ( err, res ) {
+	}, {}, function( err, res ) {
 		if ( res.statusCode === 302 ) {
-			exports.addCookie( "connect.sid", res.cookies['connect.sid'] );
+			exports.addCookie( "connect.sid", res.cookies[ 'connect.sid' ] );
 			callBack();
 			return;
 		} else {
@@ -41,8 +41,8 @@ exports.loginToApp = function ( callBack ) {
 };
 
 
-exports.logoutOfApp = function ( callBack ) {
-	needle.get( exports.baseUrl + "logout", function ( err, res ) {
+exports.logoutOfApp = function( callBack ) {
+	needle.get( exports.baseUrl + "logout", function( err, res ) {
 		cookies = {};
 		callBack();
 		return;
