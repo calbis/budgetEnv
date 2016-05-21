@@ -33,10 +33,8 @@ exports.loginToApp = function( callBack ) {
 		if ( res.statusCode === 302 ) {
 			exports.addCookie( "connect.sid", res.cookies['connect.sid'] );
 			callBack();
-			return;
 		} else {
 			callBack( "Not able to login" );
-			return;
 		}
 	} );
 };
@@ -46,7 +44,6 @@ exports.logoutOfApp = function( callBack ) {
 	needle.get( exports.baseUrl + "logout", function( err, res ) {
 		cookies = {};
 		callBack();
-		return;
 	} );
 };
 
