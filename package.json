@@ -4,7 +4,7 @@
   "description": "Budget application using the envelope method",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/www 2>&1 1>/dev/null &",
     "stop": "pkill --signal SIGINT node",
     "test": "mocha ./tests/ --recursive -R spec"
   },
