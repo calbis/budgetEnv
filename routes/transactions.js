@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require( 'express' );
 var db = require( '../lib/database.js' );
 var router = express.Router();
@@ -7,20 +9,16 @@ function SendTransactionsByAccountId( response, accountId ) {
 	var q = "Select * From vw_transaction T Where T.AccountId = ?";
 	db.getRows( q, [accountId],
 		function( rows ) {
-			response.writeHead( 200, { 'content-type': 'application/json' } );
-			response.write( JSON.stringify( rows ) );
-			response.end( '\n' );
+			response.status( 200 ).send( rows );
 		},
 		function( status ) {
-			response.writeHead( status.code, { 'content-type': 'application/json' } );
-			response.write( JSON.stringify( status.message ) );
-			response.end( '\n' );
+			response.status( status.code ).send( status.message );
 		} );
 }
 
 
 router.post( '/',
-	function( req, res, next ) {
+	function( req, res ) {
 		if ( req.user ) {
 			if ( ! isNaN( req.body.accountId ) && req.body.accountId >= 0 ) {
 				SendTransactionsByAccountId( res, req.body.accountId );
@@ -33,9 +31,7 @@ router.post( '/',
 						}
 					} );
 			} else {
-				res.writeHead( 400, { 'content-type': 'application/json' } );
-				res.write( JSON.stringify( "Missing valid account id or name" ) );
-				res.end( '\n' );
+				res.status( 400 ).send( "Missing valid account id or name" );
 			}
 		}
 		else {
