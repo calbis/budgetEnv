@@ -92,3 +92,43 @@ exports.CheckForProperEnvelope = function( envelope ) {
 	expect( envelope ).to.have.property( 'AccountId' )
 	                  .that.is.a( 'number' );
 };
+
+
+exports.CheckForProperTransaction = function( transaction ) {
+	expect( transaction ).to.have.property( 'Id' )
+	                     .that.is.a( 'number' )
+	                     .to.be.at.least( 1 );
+	expect( transaction ).to.have.property( 'Name' )
+	                     .that.is.a( 'string' )
+	                     .to.have.length.of.at.least( 1 );
+	expect( transaction ).to.have.property( 'PostedDate' )
+	                     .that.is.a( 'string' );
+	expect( transaction ).to.have.property( 'Amount' );
+	expect( transaction ).to.have.property( 'Pending' )
+	                     .that.is.a( 'number' );
+	expect( transaction ).to.have.property( 'UseInStats' )
+	                     .to.be.oneOf( [0, 1] );
+	expect( transaction ).to.have.property( 'IsRefund' )
+	                     .to.be.oneOf( [0, 1] );
+	expect( transaction ).to.have.property( 'CreatedOn' )
+	                     .that.is.a( 'string' );
+	expect( transaction ).to.have.property( 'CreatedBy' )
+	                     .that.is.a( 'number' )
+	                     .that.is.at.least( 1 );
+	expect( transaction ).to.have.property( 'ModifiedOn' )
+	                     .that.is.a( 'string' );
+	expect( transaction ).to.have.property( 'ModifiedBy' )
+	                     .that.is.a( 'number' )
+	                     .that.is.at.least( 1 );
+	expect( transaction ).to.have.property( 'EnvelopeId' )
+	                     .that.is.a( 'number' )
+	                     .to.be.at.least( 1 );
+	expect( transaction ).to.have.property( 'EnvelopeName' )
+	                     .that.is.a( 'string' )
+	                     .to.have.length.of.at.least( 1 );
+	expect( transaction ).to.have.property( 'EnvelopeColor' )
+	                     .that.is.a( 'string' )
+	                     .to.have.length.of.at.least( 1 );
+	expect( transaction ).to.have.property( 'AccountId' )
+	                     .that.is.a( 'number' );
+};
