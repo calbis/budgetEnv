@@ -26,12 +26,14 @@ router.post( '/',
 
 		if ( ! isNaN( req.body.accountId ) && req.body.accountId >= 0 ) {
 			SendTransactionsByAccountId( res, req.body.accountId );
-		} else if ( req.body.accountName.length > 0 ) {
+		} else if ( typeof req.body.accountName !== "undefined" && req.body.accountName.length > 0 ) {
 			var q = "Select Id From account Where Name = ?";
 			db.getRows( q, [req.body.accountName],
 				function( rows ) {
 					if ( rows.length > 0 ) {
 						SendTransactionsByAccountId( res, rows[0].Id );
+					} else {
+						res.status( 400 ).send( "Invalid account name provided" );
 					}
 				} );
 		} else {
