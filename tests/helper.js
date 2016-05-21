@@ -64,4 +64,31 @@ exports.CheckForProperAccount = function( account ) {
 	                 .that.is.a( 'number' );
 	expect( account ).to.have.property( 'AccountPending' )
 	                 .that.is.a( 'number' );
-}
+};
+
+
+exports.CheckForProperEnvelope = function( envelope ) {
+	expect( envelope ).to.have.property( 'EnvelopeId' )
+	                  .that.is.a( 'number' )
+	                  .to.be.at.least( 1 );
+	expect( envelope ).to.have.property( 'EnvelopeName' )
+	                  .that.is.a( 'string' )
+	                  .to.have.length.of.at.least( 1 );
+	expect( envelope ).to.have.property( 'EnvelopeColor' )
+	                  .that.is.a( 'string' )
+	                  .to.have.length.of.at.least( 1 );
+	expect( envelope ).to.have.property( 'EnvelopeSum' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'EnvelopePending' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'StatsCost' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'TimeLeft' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'GoalDeposit' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'BaseEnvelopeId' )
+	                  .that.is.a( 'number' );
+	expect( envelope ).to.have.property( 'AccountId' )
+	                  .that.is.a( 'number' );
+};
