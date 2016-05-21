@@ -16,12 +16,12 @@ exports.getCookies = function() {
 
 
 exports.addCookie = function( key, value ) {
-	cookies[ key ] = value;
+	cookies[key] = value;
 };
 
 
 exports.getCookie = function( cookieName ) {
-	return cookies[ cookieName ];
+	return cookies[cookieName];
 };
 
 
@@ -31,7 +31,7 @@ exports.loginToApp = function( callBack ) {
 		password: exports.password
 	}, {}, function( err, res ) {
 		if ( res.statusCode === 302 ) {
-			exports.addCookie( "connect.sid", res.cookies[ 'connect.sid' ] );
+			exports.addCookie( "connect.sid", res.cookies['connect.sid'] );
 			callBack();
 			return;
 		} else {
