@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require( 'express' );
 var path = require( 'path' );
 var favicon = require( 'serve-favicon' );
@@ -26,7 +28,7 @@ passport.use( new Strategy(
 			if ( ! user ) {
 				return cb( null, false );
 			}
-			if ( user.password != password ) {
+			if ( user.password !== password ) {
 				return cb( null, false );
 			}
 			return cb( null, user );
