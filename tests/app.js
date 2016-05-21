@@ -19,13 +19,13 @@ describe( "Budget Env Back End", function () {
 		} );
 	} );
 
-	describe( "Should get a 404 error when a valid route/file is not found", function () {
-		it( "returns status 404", function ( done ) {
-			needle.get( helper.baseurl + 'asdfg.hjk',
-				function ( err, res ) {
-					expect( err ).to.exist;
-					expect( err.code.length ).to.be.above( 0 );
-					expect( err.code ).to.equal( "ENOTFOUND" );
+	describe( "Should get a 404 error when a valid route/file is not found", function() {
+		it( "returns status 404", function( done ) {
+			needle.get( helper.baseUrl + 'asdfg.hjk',
+				function( err, res ) {
+					expect( err ).to.not.exist;
+					expect( res ).to.exist;
+					expect( res.statusCode ).to.equal( 404 );
 
 					done();
 				} );
