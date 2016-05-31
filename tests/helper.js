@@ -16,12 +16,12 @@ exports.getCookies = function() {
 
 
 exports.addCookie = function( key, value ) {
-	cookies[key] = value;
+	cookies[ key ] = value;
 };
 
 
 exports.getCookie = function( cookieName ) {
-	return cookies[cookieName];
+	return cookies[ cookieName ];
 };
 
 
@@ -31,7 +31,7 @@ exports.loginToApp = function( callBack ) {
 		password: exports.password
 	}, {}, function( err, res ) {
 		if ( res.statusCode === 302 ) {
-			exports.addCookie( "connect.sid", res.cookies['connect.sid'] );
+			exports.addCookie( "connect.sid", res.cookies[ 'connect.sid' ] );
 			callBack();
 		} else {
 			callBack( "Not able to login" );
@@ -126,9 +126,9 @@ exports.CheckForProperTransaction = function( transaction ) {
 	expect( transaction ).to.have.property( 'Pending' )
 	                     .that.is.a( 'number' );
 	expect( transaction ).to.have.property( 'UseInStats' )
-	                     .to.be.oneOf( [0, 1] );
+	                     .to.be.oneOf( [ 0, 1 ] );
 	expect( transaction ).to.have.property( 'IsRefund' )
-	                     .to.be.oneOf( [0, 1] );
+	                     .to.be.oneOf( [ 0, 1 ] );
 	expect( transaction ).to.have.property( 'CreatedOn' )
 	                     .that.is.a( 'string' );
 	expect( transaction ).to.have.property( 'CreatedBy' )
