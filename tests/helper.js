@@ -94,6 +94,25 @@ exports.CheckForProperEnvelope = function( envelope ) {
 };
 
 
+exports.transaction = function( Id, Name, PostedDate, Amount, Pending, UseInStats, IsRefund, EnvelopeId ) {
+	this.Id = Id || null;
+	this.Name = Name || "Fuzzy bear";
+	this.PostedDate = PostedDate || new Date().toISOString();
+	this.Amount = Amount || 10.99;
+	this.Pending = Pending || - 1.88;
+	this.UseInStats = UseInStats || 1;
+	this.IsRefund = IsRefund || 0;
+	this.CreatedOn = null;
+	this.CreatedBy = null;
+	this.ModifiedOn = null;
+	this.ModifiedBy = null;
+	this.EnvelopeId = EnvelopeId || 1;
+	this.EnvelopeColor = null;
+	this.EnvelopeName = null;
+	this.AccountId = null;
+};
+
+
 exports.CheckForProperTransaction = function( transaction ) {
 	expect( transaction ).to.have.property( 'Id' )
 	                     .that.is.a( 'number' )
