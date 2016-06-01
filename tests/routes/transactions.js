@@ -244,7 +244,7 @@ describe( "Transactions Routes", function() {
 												expect( res.body[ i ].Pending ).to.equal( - 1.88 );
 												expect( res.body[ i ].UseInStats ).to.equal( 1 );
 												expect( res.body[ i ].IsRefund ).to.equal( 0 );
-												expect( moment( res.body[ i ].PosteDate ).dayOfYear ).to.equal( moment().dayOfYear );
+												expect( moment( res.body[ i ].PostedDate ).dayOfYear ).to.equal( moment().dayOfYear );
 
 												break;
 											}
