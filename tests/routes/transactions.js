@@ -173,8 +173,10 @@ describe( "Transactions Routes", function() {
 					);
 				} );
 			} );
+		} );
 
-			describe( "Putting Data", function() {
+		describe( "Via Put Method", function() {
+			describe( "Modifying Data", function() {
 				describe( "Bad requests", function() {
 					it( "Put an invalid request", function( done ) {
 						var t = new helper.transaction( 1 );
@@ -265,8 +267,8 @@ describe( "Transactions Routes", function() {
 										}
 										expect( found ).to.be.true;
 
+										done();
 									} );
-								done();
 							} );
 					} );
 				} );
