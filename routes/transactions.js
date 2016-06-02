@@ -152,4 +152,43 @@ router.put( '/',
 		} );
 	} );
 
+function deleteTransaction( transactionId, callback ) {
+	var q = "Delete From transaction Where ?";
+	db.updateRow( q, { Id: transactionId },
+		function() {
+			callback( "" );
+		},
+		function( error ) {
+			console.log( "Delete Transaction Error: " + error.message );
+			callback( error.message );
+		} );
+}
+
+router.delete( '/',
+	function( req, res ) {
+		if ( ! req.user ) {
+			res.redirect( 401, '/' );
+			return;
+		}
+
+		if ( '' === req.body.Id || isNaN( req.body.Id ) || req.body.Id <= 0 ) {
+			res.status( 400 ).send( "Invalid transaction Id to delete" );
+			return;
+		}
+
+		doesTransactionExist( req.body.Id, function( exist ) {
+			if ( ! exist ) {
+				res.status( 400 ).send( "Transaction, " + req.body.Id + ", does not exist" );
+			} else {
+				deleteTransaction( req.body.Id, function( error ) {
+					if ( error.length !== 0 ) {
+						res.status( 500 ).send( "Problem deleting transaction id, " + req.body.Id + ", with error: " + error );
+					} else {
+						res.status( 200 ).send( "Transaction id, " + req.body.Id + ", has been deleted" );
+					}
+				} );
+			}
+		} );
+	} );
+
 module.exports = router;

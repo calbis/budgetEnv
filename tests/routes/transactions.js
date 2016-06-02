@@ -39,6 +39,20 @@ describe( "Transactions Routes", function() {
 					done();
 				} );
 		} );
+
+		it( "Transactions via the Delete Method", function( done ) {
+			needle.delete( helper.baseUrl + "transactions",
+				{
+					Id: 1
+				},
+				function( err, res ) {
+					expect( err ).to.not.exist;
+					expect( res ).to.exist;
+					expect( res.statusCode ).to.equal( 401 );
+
+					done();
+				} );
+		} );
 	} );
 
 	describe( "Authorized Routes", function() {
@@ -256,6 +270,51 @@ describe( "Transactions Routes", function() {
 							} );
 					} );
 				} );
+			} );
+		} );
+
+		describe( "Via Delete Method", function() {
+			it( "Delete a transaction", function( done ) {
+				needle.delete( helper.baseUrl + "transactions",
+					{
+						Id: 2
+					},
+					{
+						cookies: helper.getCookies()
+					},
+					function( err, res ) {
+						expect( err ).to.not.exist;
+						expect( res ).to.exist;
+						expect( res.statusCode ).to.equal( 200 );
+
+						needle.post( helper.baseUrl + "transactions",
+							{
+								accountId: 1
+							},
+							{
+								cookies: helper.getCookies()
+							},
+							function( err, res ) {
+								expect( err ).to.not.exist;
+								expect( res ).to.exist;
+								expect( res.statusCode ).to.equal( 200 );
+
+								expect( res.body ).to.be.an( 'array' );
+								expect( res.body ).to.not.be.empty;
+
+								var found = false;
+								for ( var i in res.body ) {
+									if ( res.body[ i ].Id === 1 ) {
+										found = true;
+										break;
+									}
+								}
+								expect( found ).to.be.false;
+							} );
+
+						done();
+					}
+				)
 			} );
 		} );
 
