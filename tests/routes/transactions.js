@@ -279,7 +279,7 @@ describe( "Transactions Routes", function() {
 			it( "Delete a transaction", function( done ) {
 				needle.delete( helper.baseUrl + "transactions",
 					{
-						Id: 2
+						Id: 1
 					},
 					{
 						cookies: helper.getCookies()
