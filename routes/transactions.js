@@ -19,30 +19,6 @@ function SendTransactionsByAccountId( response, accountId ) {
 }
 
 
-router.post( '/',
-	function( req, res ) {
-		if ( ! req.user ) {
-			res.redirect( 401, '/' );
-			return;
-		}
-
-		if ( ! isNaN( req.body.accountId ) && req.body.accountId >= 0 ) {
-			SendTransactionsByAccountId( res, req.body.accountId );
-		} else if ( typeof req.body.accountName !== "undefined" && req.body.accountName.length > 0 ) {
-			var q = "Select Id From account Where Name = ?";
-			db.getRows( q, [ req.body.accountName ],
-				function( rows ) {
-					if ( rows.length > 0 ) {
-						SendTransactionsByAccountId( res, rows[ 0 ].Id );
-					} else {
-						res.status( 400 ).send( "Invalid account name provided" );
-					}
-				} );
-		} else {
-			res.status( 400 ).send( "Missing valid account id or name" );
-		}
-	} );
-
 function doesTransactionExist( transactionId, callback ) {
 	var q = "Select Count(Id) As theCount From transaction Where ID = ?";
 	db.getRows( q, [ transactionId ],
@@ -163,6 +139,32 @@ function deleteTransaction( transactionId, callback ) {
 			callback( error.message );
 		} );
 }
+
+
+router.get( '/',
+	function( req, res ) {
+		if ( ! req.user ) {
+			res.redirect( 401, '/' );
+			return;
+		}
+
+		if ( ! isNaN( req.query.accountId ) && req.query.accountId >= 0 ) {
+			SendTransactionsByAccountId( res, req.query.accountId );
+		} else if ( typeof req.query.accountName !== "undefined" && req.query.accountName.length > 0 ) {
+			var q = "Select Id From account Where Name = ?";
+			db.getRows( q, [ req.query.accountName ],
+				function( rows ) {
+					if ( rows.length > 0 ) {
+						SendTransactionsByAccountId( res, rows[ 0 ].Id );
+					} else {
+						res.status( 400 ).send( "Invalid account name provided" );
+					}
+				} );
+		} else {
+			res.status( 400 ).send( "Missing valid account id or name" );
+		}
+	} );
+
 
 router.delete( '/',
 	function( req, res ) {

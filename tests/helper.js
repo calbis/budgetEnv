@@ -151,3 +151,18 @@ exports.CheckForProperTransaction = function( transaction ) {
 	expect( transaction ).to.have.property( 'AccountId' )
 	                     .that.is.a( 'number' );
 };
+
+exports.constructQueryString = function( nameValuePairs ) {
+	var qs = "";
+	for ( var key in nameValuePairs ) {
+		if ( nameValuePairs.hasOwnProperty( key ) ) {
+			qs = qs + "&" + key + "=" + nameValuePairs[ key ];
+		}
+	}
+
+	if ( qs.length > 1 ) {
+		qs = "?" + qs.substr( 1 );
+	}
+
+	return qs;
+};

@@ -10,14 +10,40 @@ var moment = require( 'moment' );
 
 describe( "Transactions Routes", function() {
 	describe( "Unauthorized Access", function() {
+		describe( "Transactions via Get method", function() {
 
-		it( "Transactions via GET method", function( done ) {
-			needle.get( helper.baseUrl + "transactions",
-				function( err, res ) {
-					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 404 );
-					done();
-				} );
+			it( "With no arguments", function( done ) {
+				needle.get( helper.baseUrl + "transactions",
+					function( err, res ) {
+						expect( res ).to.exist;
+						expect( res.statusCode ).to.equal( 401 );
+						done();
+					} );
+			} );
+
+			it( "With an Account Id", function( done ) {
+				var queryArgs = {
+					accountId: 1
+				};
+				needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+					function( err, res ) {
+						expect( res ).to.exist;
+						expect( res.statusCode ).to.equal( 401 );
+						done();
+					} );
+			} );
+
+			it( "With an Account Name", function( done ) {
+				var queryArgs = {
+					accountName: "Checking"
+				};
+				needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+					function( err, res ) {
+						expect( res ).to.exist;
+						expect( res.statusCode ).to.equal( 401 );
+						done();
+					} );
+			} );
 		} );
 
 		it( "Transactions via POST method", function( done ) {
@@ -26,7 +52,7 @@ describe( "Transactions Routes", function() {
 					accountId: 1
 				}, function( err, res ) {
 					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 401 );
+					expect( res.statusCode ).to.equal( 404 );
 					done();
 				} );
 		} );
@@ -61,83 +87,93 @@ describe( "Transactions Routes", function() {
 		} );
 
 		describe( "Via GET method", function() {
-			it( "Not a valid route", function( done ) {
-				needle.get( helper.baseUrl + "transactions", {
-					cookies: helper.getCookies()
-				}, function( err, res ) {
-					expect( err ).to.not.exist;
-					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 404 );
-					done();
+			describe( "Expected Bad requests", function() {
+				it( "No account id or name provided", function( done ) {
+					needle.get( helper.baseUrl + "transactions",
+						{
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
 				} );
+
+				it( "Negative account id provided", function( done ) {
+					var queryArgs = {
+						accountId: - 1
+					};
+					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						{
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
+				} );
+
+				it( "Invalid account id provided", function( done ) {
+					var queryArgs = {
+						accountId: "abcxyz"
+					};
+					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						{
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
+				} );
+
+				it( "Invalid account name provided", function( done ) {
+						var queryArgs = {
+							accountName: "boogers"
+						};
+						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+							{
+								cookies: helper.getCookies()
+							}, function( err, res ) {
+								expect( err ).to.not.exist;
+								expect( res ).to.exist;
+								expect( res.statusCode ).to.equal( 400 );
+								done();
+							} );
+					}
+				);
 			} );
-		} );
 
-		describe( "Via POST method", function() {
-			describe( "Getting Data", function() {
-				describe( "Expected Bad requests", function() {
-					it( "No account id or name provided", function( done ) {
-						needle.post( helper.baseUrl + "transactions",
-							null, {
-								cookies: helper.getCookies()
-							}, function( err, res ) {
-								expect( err ).to.not.exist;
-								expect( res ).to.exist;
-								expect( res.statusCode ).to.equal( 400 );
-								done();
-							} );
-					} );
+			describe( "Valid requests", function() {
+				it( "Proper account id provided", function( done ) {
+					var queryArgs = {
+						accountId: 1
+					};
+					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						{
+							cookies: helper.getCookies()
+						}, function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 200 );
 
-					it( "Negative account id provided", function( done ) {
-						needle.post( helper.baseUrl + "transactions",
-							{
-								accountId: - 1
-							}, {
-								cookies: helper.getCookies()
-							}, function( err, res ) {
-								expect( err ).to.not.exist;
-								expect( res ).to.exist;
-								expect( res.statusCode ).to.equal( 400 );
-								done();
-							} );
-					} );
+							expect( res.body ).to.be.an( 'array' );
+							expect( res.body ).to.not.be.empty;
+							helper.CheckForProperTransaction( res.body[ 0 ] );
 
-					it( "Invalid account id provided", function( done ) {
-						needle.post( helper.baseUrl + "transactions",
-							{
-								accountId: "abcxyz"
-							}, {
-								cookies: helper.getCookies()
-							}, function( err, res ) {
-								expect( err ).to.not.exist;
-								expect( res ).to.exist;
-								expect( res.statusCode ).to.equal( 400 );
-								done();
-							} );
-					} );
-
-					it( "Invalid account name provided", function( done ) {
-							needle.post( helper.baseUrl + "transactions",
-								{
-									accountName: "boogers"
-								}, {
-									cookies: helper.getCookies()
-								}, function( err, res ) {
-									expect( err ).to.not.exist;
-									expect( res ).to.exist;
-									expect( res.statusCode ).to.equal( 400 );
-									done();
-								} );
-						}
-					);
+							done();
+						} );
 				} );
 
-				describe( "Valid requests", function() {
-					it( "Proper account id provided", function( done ) {
-						needle.post( helper.baseUrl + "transactions",
+				it( "Valid account name provided", function( done ) {
+						var queryArgs = {
+							accountName: "Checking"
+						};
+						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
 							{
-								accountId: 1
-							}, {
 								cookies: helper.getCookies()
 							}, function( err, res ) {
 								expect( err ).to.not.exist;
@@ -150,27 +186,20 @@ describe( "Transactions Routes", function() {
 
 								done();
 							} );
-					} );
+					}
+				);
+			} );
+		} );
 
-					it( "Valid account name provided", function( done ) {
-							needle.post( helper.baseUrl + "transactions",
-								{
-									accountName: "Checking"
-								}, {
-									cookies: helper.getCookies()
-								}, function( err, res ) {
-									expect( err ).to.not.exist;
-									expect( res ).to.exist;
-									expect( res.statusCode ).to.equal( 200 );
-
-									expect( res.body ).to.be.an( 'array' );
-									expect( res.body ).to.not.be.empty;
-									helper.CheckForProperTransaction( res.body[ 0 ] );
-
-									done();
-								} );
-						}
-					);
+		describe( "Via POST method", function() {
+			it( "Not a valid route", function( done ) {
+				needle.post( helper.baseUrl + "transactions", {
+					cookies: helper.getCookies()
+				}, function( err, res ) {
+					expect( err ).to.not.exist;
+					expect( res ).to.exist;
+					expect( res.statusCode ).to.equal( 404 );
+					done();
 				} );
 			} );
 		} );

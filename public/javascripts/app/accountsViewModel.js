@@ -118,7 +118,7 @@ define( [ 'jquery', 'knockout', 'sammy' ], function ( $, ko, sammy ) {
 		self.setTransactionData = function ( accountName ) {
 			self.transactionData( null );
 			if ( accountName.length > 0 ) {
-				self.getData( "POST", "/transactions", {accountName: accountName}, "json", function ( rows ) {
+				self.getData( "GET", "/transactions", {accountName: accountName}, "json", function ( rows ) {
 					if ( rows.length > 0 ) {
 						self.transactionData( {data: rows} );
 					}
