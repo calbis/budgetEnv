@@ -262,7 +262,7 @@ describe( "Transactions Routes", function() {
 								if ( res.statusCode === 400 ) {
 									console.log( "Errors: " + res.body );
 								}
-								expect( res.statusCode ).to.equal( 201 );
+								expect( res.statusCode ).to.equal( 200 );
 
 								needle.post( helper.baseUrl + "transactions",
 									{

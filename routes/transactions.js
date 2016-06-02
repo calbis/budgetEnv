@@ -106,27 +106,6 @@ function saveTransaction( user, transaction, callback ) {
 		} );
 }
 
-router.put( '/',
-	function( req, res ) {
-		if ( ! req.user ) {
-			res.redirect( 401, '/' );
-			return;
-		}
-		var t = req.body;
-		validateTransaction( t, function( errors ) {
-			if ( errors.length > 0 ) {
-				res.status( 400 ).send( "Invalid Transaction Object: " + errors );
-				return;
-			}
-			saveTransaction( req.user, t, function( saved ) {
-				if ( saved.length > 0 ) {
-					res.status( 500 ).send( "Unable to save the transaction: " + saved );
-				} else {
-					res.status( 201 ).send( "Save successful" );
-				}
-			} );
-		} );
-	} );
 
 function deleteTransaction( transactionId, callback ) {
 	var q = "Delete From transaction Where ?";
@@ -163,6 +142,29 @@ router.get( '/',
 		} else {
 			res.status( 400 ).send( "Missing valid account id or name" );
 		}
+	} );
+
+
+router.put( '/',
+	function( req, res ) {
+		if ( ! req.user ) {
+			res.redirect( 401, '/' );
+			return;
+		}
+		var t = req.body;
+		validateTransaction( t, function( errors ) {
+			if ( errors.length > 0 ) {
+				res.status( 400 ).send( "Invalid Transaction Object: " + errors );
+				return;
+			}
+			saveTransaction( req.user, t, function( saved ) {
+				if ( saved.length > 0 ) {
+					res.status( 500 ).send( "Unable to save the transaction: " + saved );
+				} else {
+					res.status( 200 ).send( "Save successful" );
+				}
+			} );
+		} );
 	} );
 
 
