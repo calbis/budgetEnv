@@ -264,10 +264,10 @@ describe( "Transactions Routes", function() {
 								}
 								expect( res.statusCode ).to.equal( 200 );
 
-								needle.post( helper.baseUrl + "transactions",
-									{
-										accountId: 1
-									},
+								var queryArgs = {
+									accountId: 1
+								};
+								needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
 									{
 										cookies: helper.getCookies()
 									},
@@ -318,10 +318,10 @@ describe( "Transactions Routes", function() {
 						expect( res ).to.exist;
 						expect( res.statusCode ).to.equal( 200 );
 
-						needle.post( helper.baseUrl + "transactions",
-							{
-								accountId: 1
-							},
+						var queryArgs = {
+							accountId: 1
+						};
+						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
 							{
 								cookies: helper.getCookies()
 							},
