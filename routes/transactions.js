@@ -87,7 +87,7 @@ function validateTransaction( transaction, callback ) {
 	}
 }
 
-function saveTransaction( user, transaction, callback ) {
+function updateTransaction( user, transaction, callback ) {
 	var id = transaction.Id;
 	var t = transaction;
 	delete t.Id;
@@ -157,7 +157,7 @@ router.put( '/',
 				res.status( 400 ).send( "Invalid Transaction Object: " + errors );
 				return;
 			}
-			saveTransaction( req.user, t, function( saved ) {
+			updateTransaction( req.user, t, function( saved ) {
 				if ( saved.length > 0 ) {
 					res.status( 500 ).send( "Unable to save the transaction: " + saved );
 				} else {
