@@ -22,10 +22,10 @@ describe( "Transactions Routes", function() {
 			} );
 
 			it( "With an Account Id", function( done ) {
-				var queryArgs = {
-					accountId: 1
-				};
-				needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+				needle.request( 'get', helper.baseUrl + "transactions",
+					{
+						accountId: 1
+					},
 					function( err, res ) {
 						expect( res ).to.exist;
 						expect( res.statusCode ).to.equal( 401 );
@@ -34,10 +34,10 @@ describe( "Transactions Routes", function() {
 			} );
 
 			it( "With an Account Name", function( done ) {
-				var queryArgs = {
-					accountName: "Checking"
-				};
-				needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+				needle.request( 'get', helper.baseUrl + "transactions",
+					{
+						accountName: "Checking"
+					},
 					function( err, res ) {
 						expect( res ).to.exist;
 						expect( res.statusCode ).to.equal( 401 );
@@ -101,10 +101,10 @@ describe( "Transactions Routes", function() {
 				} );
 
 				it( "Negative account id provided", function( done ) {
-					var queryArgs = {
-						accountId: - 1
-					};
-					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+					needle.request( 'get', helper.baseUrl + "transactions",
+						{
+							accountId: - 1
+						},
 						{
 							cookies: helper.getCookies()
 						}, function( err, res ) {
@@ -116,10 +116,10 @@ describe( "Transactions Routes", function() {
 				} );
 
 				it( "Invalid account id provided", function( done ) {
-					var queryArgs = {
-						accountId: "abcxyz"
-					};
-					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+					needle.request( 'get', helper.baseUrl + "transactions",
+						{
+							accountId: "abcxyz"
+						},
 						{
 							cookies: helper.getCookies()
 						}, function( err, res ) {
@@ -131,10 +131,10 @@ describe( "Transactions Routes", function() {
 				} );
 
 				it( "Invalid account name provided", function( done ) {
-						var queryArgs = {
-							accountName: "boogers"
-						};
-						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						needle.request( 'get', helper.baseUrl + "transactions",
+							{
+								accountName: "boogers"
+							},
 							{
 								cookies: helper.getCookies()
 							}, function( err, res ) {
@@ -149,10 +149,10 @@ describe( "Transactions Routes", function() {
 
 			describe( "Valid requests", function() {
 				it( "Proper account id provided", function( done ) {
-					var queryArgs = {
-						accountId: 1
-					};
-					needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+					needle.request( 'get', helper.baseUrl + "transactions",
+						{
+							accountId: 1
+						},
 						{
 							cookies: helper.getCookies()
 						}, function( err, res ) {
@@ -169,10 +169,10 @@ describe( "Transactions Routes", function() {
 				} );
 
 				it( "Valid account name provided", function( done ) {
-						var queryArgs = {
-							accountName: "Checking"
-						};
-						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						needle.request( 'get', helper.baseUrl + "transactions",
+							{
+								accountName: "Checking"
+							},
 							{
 								cookies: helper.getCookies()
 							}, function( err, res ) {
@@ -264,10 +264,10 @@ describe( "Transactions Routes", function() {
 								}
 								expect( res.statusCode ).to.equal( 200 );
 
-								var queryArgs = {
-									accountId: 1
-								};
-								needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+								needle.request( 'get', helper.baseUrl + "transactions",
+									{
+										accountId: 1
+									},
 									{
 										cookies: helper.getCookies()
 									},
@@ -318,10 +318,10 @@ describe( "Transactions Routes", function() {
 						expect( res ).to.exist;
 						expect( res.statusCode ).to.equal( 200 );
 
-						var queryArgs = {
-							accountId: 1
-						};
-						needle.get( helper.baseUrl + "transactions" + helper.constructQueryString( queryArgs ),
+						needle.request( 'get', helper.baseUrl + "transactions",
+							{
+								accountId: 1
+							},
 							{
 								cookies: helper.getCookies()
 							},
