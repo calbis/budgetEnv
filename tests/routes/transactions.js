@@ -204,7 +204,7 @@ describe( "Transactions Routes", function() {
 			} );
 		} );
 
-		describe( "Via Put Method", function() {
+		describe.skip( "Via Put Method", function() {
 			describe( "Modifying Data", function() {
 				describe( "Bad requests", function() {
 					it( "Put an invalid request", function( done ) {
@@ -304,7 +304,7 @@ describe( "Transactions Routes", function() {
 			} );
 		} );
 
-		describe( "Via Delete Method", function() {
+		describe.skip( "Via Delete Method", function() {
 			it( "Delete a transaction", function( done ) {
 				needle.delete( helper.baseUrl + "transactions",
 					{
@@ -353,5 +353,4 @@ describe( "Transactions Routes", function() {
 			helper.logoutOfApp( done );
 		} );
 	} );
-} )
-;
+} );
