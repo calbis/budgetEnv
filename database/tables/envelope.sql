@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `envelope` (
   KEY `FK_EnvelopesAccountId_ToAccountId` (`AccountId`),
   KEY `FK_EnvelopesCreatedBy_ToUsersId` (`CreatedBy`),
   KEY `FK_EnvelopesModifiedBy_ToUsersId` (`ModifiedBy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_bin AUTO_INCREMENT=1 ;

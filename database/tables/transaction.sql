@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   KEY `FK_TransactionsEnvelopeId_ToEnvelopesId` (`EnvelopeId`),
   KEY `FK_TransactionsCreatedBy_ToUsersId` (`CreatedBy`),
   KEY `FK_TransactionsModifiedBy_ToUsersId` (`ModifiedBy`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_bin AUTO_INCREMENT=1 ;

@@ -22,7 +22,7 @@ systemctl enable mariadb.service
 service mariadb start
 
 # Create users
-`mysql -u root -e "Create Database accounts DEFAULT CHARACTER SET utf8_bin;"`
+`mysql -u root -e "Create Database accounts DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_bin;"`
 `mysql --database=mysql -u root -e "create user 'manager'@'10.0.%' identified by 'Password123';"`
 `mysql --database=mysql -u root -e "create user 'manager'@'localhost' identified by 'Password123';"`
 `mysql --database=mysql -u root -e "create user 'www'@'localhost' identified by 'Password123';"`
