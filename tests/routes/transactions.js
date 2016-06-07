@@ -48,11 +48,10 @@ describe( "Transactions Routes", function() {
 
 		it( "Transactions via POST method", function( done ) {
 			needle.post( helper.baseUrl + "transactions",
-				{
-					accountId: 1
-				}, function( err, res ) {
+				null,
+				function( err, res ) {
 					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 404 );
+					expect( res.statusCode ).to.equal( 401 );
 					done();
 				} );
 		} );
@@ -192,19 +191,177 @@ describe( "Transactions Routes", function() {
 		} );
 
 		describe( "Via POST method", function() {
-			it( "Not a valid route", function( done ) {
-				needle.post( helper.baseUrl + "transactions", {
-					cookies: helper.getCookies()
-				}, function( err, res ) {
-					expect( err ).to.not.exist;
-					expect( res ).to.exist;
-					expect( res.statusCode ).to.equal( 404 );
-					done();
+			describe( "Bad requests", function() {
+				it( "No data", function( done ) {
+					needle.post( helper.baseUrl + "transactions",
+						null,
+						{
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+							done();
+						} );
+				} );
+
+				it( "Empty array", function( done ) {
+					needle.post( helper.baseUrl + "transactions",
+						{
+							transactions: []
+						},
+						{
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							expect( res.statusCode ).to.equal( 400 );
+
+							done();
+						} );
+				} );
+
+				it( "Create an invalid request", function( done ) {
+					var preCount = helper.getTransactionCountByAccountId( 1 );
+
+					var t = helper.transactionPlain();
+					t.Id = null;
+					t.Name = "";
+					t.Amount = null;
+					t.Pending = null;
+					t.UseInStats = null;
+					t.IsRefund = null;
+					t.PostedDate = null;
+					t.EnvelopeId = 1;
+
+					needle.post( helper.baseUrl + "transactions",
+						{
+							Transactions: [ t ]
+						},
+						{
+							json: true,
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist
+							expect( res.statusCode ).to.equal( 400 );
+							expect( res.body ).to.contain( 'Name is invalid' );
+							expect( res.body ).to.contain( 'PostedDate is invalid' );
+							expect( res.body ).to.contain( 'Amount is invalid' );
+							expect( res.body ).to.contain( 'Pending is invalid' );
+							expect( res.body ).to.contain( 'Amount or Pending is required' );
+							expect( res.body ).to.contain( 'UseInStats is invalid' );
+							expect( res.body ).to.contain( 'IsRefund is invalid' );
+
+							var postCount = helper.getTransactionCountByAccountId( 1 );
+							expect( preCount ).to.equal( postCount );
+
+							done();
+						}
+					);
+				} );
+
+				it( "Create multiple invalid requests", function( done ) {
+					var preCount = helper.getTransactionCountByAccountId( 1 );
+
+					var tArr = [];
+					for ( var i = 0; i < 3; i = i + 1 ) {
+						var t = helper.transactionPlain();
+						t.Id = null;
+						t.Name = "";
+						t.Amount = null;
+						t.Pending = null;
+						t.UseInStats = null;
+						t.IsRefund = null;
+						t.PostedDate = null;
+						t.EnvelopeId = 1;
+
+						tArr.push( t );
+					}
+
+					needle.post( helper.baseUrl + "transactions",
+						{
+							Transactions: tArr
+						},
+						{
+							json: true,
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist
+							expect( res.statusCode ).to.equal( 202 );
+
+							var postCount = helper.getTransactionCountByAccountId( 1 );
+							expect( preCount ).to.equal( postCount );
+
+							done();
+						}
+					);
+				} );
+			} );
+
+			describe( "Valid requests", function() {
+				it( "Create a single transaction", function( done ) {
+					var t = helper.transactionPlain( null, "tranA1" );
+					needle.post( helper.baseUrl + "transactions",
+						{
+							Transactions: [ t ]
+						},
+						{
+							json: true,
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							if ( res.statusCode === 400 ) {
+								console.log( "Single transaction errors: " + res.body );
+							}
+							expect( res.statusCode ).to.equal( 201 );
+
+							t.AccountId = 1;
+							helper.checkForTransaction( t, done );
+						} );
+				} );
+
+				it( "Create multiple transactions", function( done ) {
+					var t = [];
+					t.push( helper.transactionPlain( null, "tranB1" ) );
+					t.push( helper.transactionPlain( null, "tranB2" ) );
+					t.push( helper.transactionPlain( null, "tranB3" ) );
+
+					needle.post( helper.baseUrl + "transactions",
+						{
+							Transactions: t
+						},
+						{
+							json: true,
+							cookies: helper.getCookies()
+						},
+						function( err, res ) {
+							expect( err ).to.not.exist;
+							expect( res ).to.exist;
+							if ( res.statusCode === 400 ) {
+								console.log( "Multiple transaction errors: " + res.body );
+							}
+							expect( res.statusCode ).to.equal( 202 );
+
+							for ( var i = 0; i < t.length; i = i + 1 ) {
+								t[ i ].AccountId = 1;
+							}
+
+							helper.processCheckForTransactions( t, done );
+						} );
 				} );
 			} );
 		} );
 
-		describe.skip( "Via Put Method", function() {
+
+		describe( "Via Put Method", function() {
 			describe( "Modifying Data", function() {
 				describe( "Bad requests", function() {
 					it( "Put an invalid request", function( done ) {
@@ -254,6 +411,7 @@ describe( "Transactions Routes", function() {
 						needle.put( helper.baseUrl + "transactions",
 							t,
 							{
+								json: true,
 								cookies: helper.getCookies()
 							},
 							function( err, res ) {
@@ -304,7 +462,7 @@ describe( "Transactions Routes", function() {
 			} );
 		} );
 
-		describe.skip( "Via Delete Method", function() {
+		describe( "Via Delete Method", function() {
 			it( "Delete a transaction", function( done ) {
 				needle.delete( helper.baseUrl + "transactions",
 					{

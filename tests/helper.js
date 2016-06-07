@@ -2,6 +2,7 @@
 
 var needle = require( 'needle' );
 var expect = require( "chai" ).expect;
+var moment = require( 'moment' );
 
 var cookies = {};
 
@@ -97,7 +98,7 @@ exports.CheckForProperEnvelope = function( envelope ) {
 exports.transaction = function( Id, Name, PostedDate, Amount, Pending, UseInStats, IsRefund, EnvelopeId ) {
 	this.Id = Id || null;
 	this.Name = Name || "Fuzzy bear";
-	this.PostedDate = PostedDate || new Date().toISOString();
+	this.PostedDate = PostedDate || moment().format();
 	this.Amount = Amount || 10.99;
 	this.Pending = Pending || - 1.88;
 	this.UseInStats = UseInStats || 1;
@@ -111,6 +112,17 @@ exports.transaction = function( Id, Name, PostedDate, Amount, Pending, UseInStat
 	this.EnvelopeName = null;
 	this.AccountId = null;
 };
+
+
+exports.transactionPlain = function( Id, Name, PostedDate, Amount, Pending, UseInStats, IsRefund, EnvelopeId ) {
+	var t = new exports.transaction( Id, Name, PostedDate, Amount, Pending, UseInStats, IsRefund, EnvelopeId );
+
+	delete t.EnvelopeColor;
+	delete t.EnvelopeName;
+	delete t.AccountId;
+
+	return t;
+}
 
 
 exports.CheckForProperTransaction = function( transaction ) {
@@ -150,4 +162,78 @@ exports.CheckForProperTransaction = function( transaction ) {
 	                     .to.have.length.of.at.least( 1 );
 	expect( transaction ).to.have.property( 'AccountId' )
 	                     .that.is.a( 'number' );
+};
+
+
+exports.checkForTransaction = function( transaction, cb ) {
+	needle.request( 'get', exports.baseUrl + "transactions",
+		{
+			accountId: transaction.AccountId
+		},
+		{
+			cookies: exports.getCookies()
+		},
+		function( err, res ) {
+			expect( err ).to.not.exist;
+			expect( res ).to.exist;
+			expect( res.statusCode ).to.equal( 200 );
+
+			expect( res.body ).to.be.an( 'array' );
+			expect( res.body ).to.not.be.empty;
+
+			var found = false;
+			for ( var i in res.body ) {
+				if ( res.body[ i ].Name === transaction.Name &&
+				     moment( res.body[ i ].PostedDate ).isSame( transaction.PostedDate, 'day' ) &&
+				     res.body[ i ].Amount === transaction.Amount &&
+				     res.body[ i ].Pending === transaction.Pending &&
+				     res.body[ i ].UseInStats === transaction.UseInStats &&
+				     res.body[ i ].IsRefund === transaction.IsRefund &&
+				     res.body[ i ].EnvelopeId === transaction.EnvelopeId
+				) {
+					found = true;
+					break;
+				}
+			}
+			expect( found ).to.be.true;
+
+			cb();
+		} );
+};
+
+
+exports.processCheckForTransactions = function( transactions, cb ) {
+	if ( transactions.length === 0 ) {
+		cb();
+		return;
+	}
+	var t = transactions.pop();
+	exports.checkForTransaction( t, function() {
+		exports.processCheckForTransactions( transactions, cb );
+	} );
+};
+
+
+exports.getTransactionCountByAccountId = function( accountId ) {
+	needle.request( 'get', exports.baseUrl + "transactions",
+		{
+			accountId: accountId
+		},
+		{
+			cookies: exports.getCookies()
+		}, function( err, res ) {
+			expect( err ).to.not.exist;
+			expect( res ).to.exist;
+			expect( res.statusCode ).to.equal( 200 );
+
+			expect( res.body ).to.be.an( 'array' );
+			expect( res.body ).to.not.be.empty;
+
+			var count = 0;
+			for ( var i = 0; i < res.body.length; i = i + 1 ) {
+				count = count + 1;
+			}
+
+			return count;
+		} );
 };

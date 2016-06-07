@@ -27,67 +27,93 @@ function doesTransactionExist( transactionId, callback ) {
 		} );
 }
 
-function validateTransaction( transaction, callback ) {
+
+function validateTransaction( shouldExist, user, transaction, onGood, onBad ) {
 	var err = "";
 	if ( typeof transaction !== 'object' ) {
 		return "Unknown transaction object";
 	}
-	if ( '' === transaction.Amount ||
-	     isNaN( transaction.Amount ) ||
-	     transaction.Id <= 0 ) {
+	if ( shouldExist && (
+			! transaction.Id ||
+			isNaN( transaction.Id ) ||
+			transaction.Id <= 0
+		) ) {
 		err += ", Id is invalid";
 	}
-	if ( '' === transaction.Name ||
+	if ( ! transaction.Name ||
 	     transaction.Name.length <= 0 ) {
 		err += ", Name is invalid";
 	}
-	if ( '' === transaction.PostedDate || ! moment().isValid( transaction.PostedDate ) ) {
+	if ( ! transaction.PostedDate || ! moment().isValid( transaction.PostedDate ) ) {
 		err += ", PostedDate is invalid";
 	}
-	if ( '' === transaction.Amount ||
+	if ( ! transaction.Amount ||
 	     isNaN( transaction.Amount ) ) {
 		err += ", Amount is invalid";
 	}
-	if ( '' === transaction.Pending ||
+	if ( ! transaction.Pending ||
 	     isNaN( transaction.Pending ) ) {
 		err += ", Pending is invalid";
 	}
-	if ( '' === transaction.Amount &&
-	     '' === transaction.Pending ) {
+	if ( ! transaction.Amount && ! transaction.Pending ) {
 		err += ", One of Amount or Pending is required";
 	}
-	if ( '' === transaction.EnvelopeId ||
+	if ( ! transaction.EnvelopeId ||
 	     isNaN( transaction.EnvelopeId ) ||
 	     transaction.EnvelopeId <= 0 ) {
 		err += ", EnvelopeId is invalid";
 	}
 	if ( '' === transaction.UseInStats ||
+	     null === transaction.UseInStats ||
 	     isNaN( transaction.UseInStats ) ||
 	     transaction.UseInStats < 0 ||
 	     transaction.UseInStats > 1 ) {
 		err += ", UseInStats is invalid";
 	}
 	if ( '' === transaction.IsRefund ||
+	     null === transaction.IsRefund ||
 	     isNaN( transaction.IsRefund ) ||
 	     transaction.IsRefund < 0 ||
 	     transaction.IsRefund > 1 ) {
 		err += ", IsRefund is invalid";
 	}
 
-	if ( err.length > 2 ) {
-		callback( err.substring( 2 ) );
-	} else {
-		doesTransactionExist( transaction.Id, function( exists ) {
-			if ( ! exists ) {
-				callback( "Transaction by that Id does not exist" );
-			} else {
-				callback( "" );
+	if ( err.length === 0 ) {
+		doesTransactionExist( transaction.Id, function( doesExist ) {
+			if ( shouldExist && doesExist || ! shouldExist && ! doesExist ) {
+				onGood( user, transaction, onBad );
+			} else if ( typeof onBad === 'function' ) {
+				if ( shouldExist ) {
+					onBad( "Transaction does not exist, but it should" );
+				} else {
+					onBad( "Transaction exists, but it shouldn't" );
+				}
 			}
 		} );
+	} else if ( typeof onBad === 'function' ) {
+		onBad( err.substr( 2 ) );
 	}
 }
 
-function updateTransaction( user, transaction, callback ) {
+
+function insertTransaction( user, transaction, onGood, onBad ) {
+	var t = transaction;
+	delete t.Id;
+	t.CreatedBy = user.id;
+	t.CreatedOn = helper.getSqlDateNow();
+	t.ModifiedBy = user.id;
+	t.ModifiedOn = helper.getSqlDateNow();
+	var q = "Insert Into transaction Set ?";
+	db.insertRow( q, [ t ], onGood,
+		function( error ) {
+			if ( typeof onBad === 'function' ) {
+				onBad( error.message );
+			}
+		} );
+}
+
+
+function updateTransaction( user, transaction ) {
 	var id = transaction.Id;
 	var t = transaction;
 	delete t.Id;
@@ -96,14 +122,7 @@ function updateTransaction( user, transaction, callback ) {
 	t.ModifiedBy = user.id;
 	t.ModifiedOn = helper.getSqlDateNow();
 	var q = "Update transaction Set ? Where ?";
-	db.updateRow( q, [ t, { Id: id } ],
-		function( rows ) {
-			callback( rows );
-		},
-		function( error ) {
-			console.log( "Update Transaction Error: " + error.message );
-			callback( false );
-		} );
+	db.updateRow( q, [ t, { Id: id } ], null, null );
 }
 
 
@@ -118,6 +137,42 @@ function deleteTransaction( transactionId, callback ) {
 			callback( error.message );
 		} );
 }
+
+
+router.post( '/',
+	function( req, res ) {
+		if ( ! req.user ) {
+			res.redirect( 401, '/' );
+			return;
+		}
+		var t = req.body.Transactions;
+		if ( ! Array.isArray( t ) || t.length <= 0 ) {
+			res.status( 400 ).send( "Expected to get an array of transaction(s)" );
+			return;
+		}
+
+		if ( t.length === 1 ) {
+			validateTransaction( false, req.user, t[ 0 ],
+				function() {
+					insertTransaction( req.user, t[ 0 ],
+						function() {
+							res.status( 201 ).send( "Transaction created successfully" );
+						},
+						function( error ) {
+							res.status( 400 ).send( error );
+						} );
+				},
+				function( error ) {
+					res.status( 400 ).send( error );
+				} );
+		} else {
+			for ( var i = 0; i < t.length; i = i + 1 ) {
+				validateTransaction( false, req.user, t[ i ], insertTransaction, null );
+			}
+
+			res.status( 202 ).send( "Processing transaction creation" );
+		}
+	} );
 
 
 router.get( '/',
@@ -151,20 +206,10 @@ router.put( '/',
 			res.redirect( 401, '/' );
 			return;
 		}
-		var t = req.body;
-		validateTransaction( t, function( errors ) {
-			if ( errors.length > 0 ) {
-				res.status( 400 ).send( "Invalid Transaction Object: " + errors );
-				return;
-			}
-			updateTransaction( req.user, t, function( saved ) {
-				if ( saved.length > 0 ) {
-					res.status( 500 ).send( "Unable to save the transaction: " + saved );
-				} else {
-					res.status( 200 ).send( "Save successful" );
-				}
-			} );
-		} );
+
+		validateTransaction( true, req.user, req.body, updateTransaction );
+
+		res.status( 202 ).send( "Processing Update" );
 	} );
 
 
