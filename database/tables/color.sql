@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `color` (
   `Id` varchar(20) NOT NULL,
   `Name` varchar(20) NOT NULL,
   UNIQUE KEY `Id` (`Id`,`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
 
 TRUNCATE TABLE `color`;
 

@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `log` (
   `CreatedOn` datetime NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_LogsUserId_ToUsersId` (`UserId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8_bin AUTO_INCREMENT=1 ;
